@@ -1,426 +1,326 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>WorkLess — Automatyzacja biznesu z AI</title>
-  <meta name="description" content="WorkLess: wdrażamy proste narzędzia AI, które oszczędzają czas i zwiększają zysk. Chatboty, automatyczne oferty, raporty, analizy — w 7 dni." />
-  <meta property="og:title" content="WorkLess — Automatyzacja biznesu z AI" />
-  <meta property="og:description" content="Chatboty, generatory ofert, raporty, analizy. W 7 dni. Pracuj mniej, zarabiaj więcej." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://worklessai.pl" />
-  <meta name="theme-color" content="#00bfa6" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --bg:#0a0f1c;
-      --bg-soft:#0f1530;
-      --card:rgba(255,255,255,0.08);
-      --stroke:rgba(255,255,255,0.12);
-      --txt:#eaf2ff;
-      --muted:#b4c1d8;
-      --accent:#00bfa6;
-      --accent-2:#5ce1d6;
-      --ink:#0a1f44;
-      --radius:18px;
-      --shadow:0 10px 30px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.06);
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0; font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-      color:var(--txt); background:radial-gradient(1200px 800px at 80% -10%,#1a2553 0%,transparent 60%), radial-gradient(900px 700px at -10% 110%,#0b4c66 0%,transparent 60%), var(--bg);
-      overflow-x:hidden;
-    }
-    /* Animated blobs */
-    .blob, .blob2{
-      position:fixed; width:700px; height:700px; border-radius:50%;
-      filter: blur(90px); opacity:.18; z-index:-2;
-      background:conic-gradient(from 0deg, #00bfa6, #5ce1d6, #3a86ff, #00bfa6);
-      animation: spin 32s linear infinite;
-      pointer-events:none;
-    }
-    .blob{top:-200px; right:-200px}
-    .blob2{bottom:-240px; left:-220px; animation-duration: 40s; animation-direction: reverse;}
-    @keyframes spin { to { transform: rotate(1turn); } }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>WorkLess AI — Pracuj mniej, osiągaj więcej</title>
+<meta name="description" content="WorkLess AI: wdrożenia chatbotów, automatyzacja ofert i raportów. Pracuj mniej, osiągaj więcej." />
+<meta name="theme-color" content="#00bfa6" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;800&display=swap" rel="stylesheet">
 
-    /* layout */
-    .container{max-width:1200px; margin:0 auto; padding:0 20px}
-    header{
-      position:sticky; top:0; backdrop-filter:saturate(140%) blur(10px);
-      background:linear-gradient(180deg, rgba(10,15,28,.8), rgba(10,15,28,.35));
-      border-bottom:1px solid var(--stroke); z-index:30;
-    }
-    .nav{
-      display:flex; align-items:center; justify-content:space-between; gap:16px; height:72px;
-    }
-    .brand{display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--txt)}
-    .brand svg{width:38px; height:38px}
-    .brand b{font-size:1.1rem; letter-spacing:.2px}
-    .navlinks{display:flex; gap:18px; align-items:center}
-    .navlinks a{color:var(--muted); text-decoration:none; font-weight:500}
-    .navlinks a:hover{color:var(--txt)}
-    .cta{
-      appearance:none; border:none; background:linear-gradient(135deg,var(--accent),var(--accent-2));
-      color:#00110e; font-weight:800; padding:12px 18px; border-radius:12px; cursor:pointer;
-      box-shadow:0 10px 24px rgba(0,191,166,.25); transition:.2s transform ease;
-    }
-    .cta:hover{transform:translateY(-1px)}
-    .ghost{background:transparent; color:var(--txt); border:1px solid var(--stroke)}
+<style>
+:root{
+  --bg:#0a0f1c;--bg2:#0c1226;--txt:#eaf2ff;--muted:#b4c1d8;
+  --accent:#00bfa6;--accent2:#5ce1d6;--vio:#8a5cf6;--blue:#3aa0ff;
+  --card:rgba(255,255,255,.07);--stroke:rgba(255,255,255,.12);--radius:18px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;font-family:Poppins,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--txt);
+  background:radial-gradient(1200px 800px at 80% -10%,#1a2553 0%,transparent 60%),
+             radial-gradient(900px 700px at -10% 110%,#0b4c66 0%,transparent 60%),
+             var(--bg);}
+a{color:var(--accent);text-decoration:none}
+.container{max-width:1200px;margin:0 auto;padding:0 20px}
 
-    /* hero */
-    .hero{padding:84px 0 40px}
-    .hero-grid{display:grid; grid-template-columns:1.15fr .85fr; gap:28px; align-items:center}
-    .kicker{display:inline-block; padding:6px 12px; border:1px solid var(--stroke); border-radius:999px; color:var(--muted); font-weight:600; letter-spacing:.4px}
-    .title{font-size: clamp(2.2rem, 4.2vw, 3.6rem); line-height:1.05; margin:14px 0 12px; font-weight:800}
-    .subtitle{color:var(--muted); font-size: clamp(1rem, 1.6vw, 1.15rem); max-width:58ch}
-    .hero-actions{display:flex; flex-wrap:wrap; gap:12px; margin-top:22px}
-    .preview{
-      background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
-      border:1px solid var(--stroke); border-radius:var(--radius); box-shadow:var(--shadow);
-      padding:14px; position:relative; overflow:hidden;
-    }
-    .preview-inner{
-      border-radius:12px; background:linear-gradient(180deg,#0f1b33,#0c1226); border:1px solid var(--stroke); overflow:hidden
-    }
-    .windowbar{display:flex; gap:8px; padding:10px; border-bottom:1px solid var(--stroke); background:rgba(255,255,255,.03)}
-    .dot{width:10px; height:10px; border-radius:50%}
-    .dot.r{background:#ff5f57}.dot.y{background:#ffbd2e}.dot.g{background:#28c840}
-    .code{
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      padding:20px; color:#d6e2ff; font-size:.95rem; min-height:260px; position:relative;
-      background:radial-gradient(600px 200px at 20% 0%, rgba(92,225,214,.12), transparent 60%);
-    }
-    .code kbd{color:#5ce1d6}
-    .badge{
-      position:absolute; right:14px; bottom:14px; background:rgba(0,191,166,.15);
-      border:1px solid rgba(0,191,166,.35); color:#9ff2e8; padding:6px 10px; border-radius:10px; font-weight:700; font-size:.8rem
-    }
+/* glass top bar */
+header{
+  position:sticky;top:0;z-index:20;backdrop-filter:saturate(130%) blur(10px);
+  background:linear-gradient(180deg, rgba(10,15,28,.7), rgba(10,15,28,.25));
+  border-bottom:1px solid var(--stroke);
+}
+.nav{height:74px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{display:flex;align-items:center;gap:12px;color:var(--txt)}
+.brand svg{width:40px;height:40px}
+.brand b{letter-spacing:.3px}
+.navlinks{display:flex;gap:18px;align-items:center}
+.navlinks a{color:var(--muted)}
+.cta{appearance:none;border:none;border-radius:12px;padding:12px 18px;font-weight:800;cursor:pointer;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));color:#00110e;
+  box-shadow:0 10px 24px rgba(0,191,166,.25);transition:.15s transform}
+.cta:hover{transform:translateY(-1px)}
+.ghost{background:transparent;color:var(--txt);border:1px solid var(--stroke);box-shadow:none}
 
-    /* sections */
-    section{padding:70px 0}
-    .section-title{font-size:2rem; margin:0 0 10px}
-    .section-note{color:var(--muted); margin-bottom:28px}
+/* hero */
+.hero{position:relative;min-height:78vh;display:grid;place-items:center;overflow:hidden}
+canvas#fx{position:absolute;inset:0;z-index:-1}
+.glow1,.glow2{
+  position:absolute;width:900px;height:900px;border-radius:50%;filter:blur(90px);opacity:.18;z-index:-2;pointer-events:none}
+.glow1{top:-260px;right:-260px;background:conic-gradient(from 0deg,#00bfa6,#5ce1d6,#3aa0ff,#8a5cf6,#00bfa6);animation:spin 40s linear infinite}
+.glow2{bottom:-300px;left:-280px;background:conic-gradient(from 0deg,#8a5cf6,#3aa0ff,#5ce1d6,#00bfa6,#8a5cf6);animation:spin 55s linear infinite reverse}
+@keyframes spin{to{transform:rotate(1turn)}}
+.hero-inner{text-align:center;padding:80px 0}
+.kicker{display:inline-block;padding:6px 12px;border:1px solid var(--stroke);border-radius:999px;color:var(--muted);font-weight:600}
+.title{font-size:clamp(2.2rem,4.5vw,3.8rem);line-height:1.05;margin:16px 0 10px;font-weight:800}
+.subtitle{color:var(--muted);max-width:70ch;margin:0 auto 18px}
+.hero-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px}
 
-    /* features */
-    .grid{display:grid; gap:18px}
-    .grid.cols-3{grid-template-columns:repeat(3,1fr)}
-    .card{
-      background:var(--card); border:1px solid var(--stroke); border-radius:var(--radius);
-      padding:22px; box-shadow:var(--shadow)
-    }
-    .icon{
-      width:44px; height:44px; display:grid; place-items:center; border-radius:12px;
-      background:linear-gradient(135deg, rgba(0,191,166,.2), rgba(92,225,214,.15)); border:1px solid rgba(0,191,166,.35); margin-bottom:12px
-    }
-    .card h3{margin:6px 0 8px}
-    .card p{color:var(--muted)}
+/* sections */
+section{padding:80px 0}
+.section-title{font-size:clamp(1.6rem,3vw,2.2rem);margin:0 0 10px}
+.section-note{color:var(--muted);margin-bottom:28px}
+.grid{display:grid;gap:18px}
+.cols-3{grid-template-columns:repeat(3,1fr)}
+.card{background:var(--card);border:1px solid var(--stroke);border-radius:var(--radius);padding:22px;
+  box-shadow:0 10px 30px rgba(0,0,0,.3)}
+.icon{width:46px;height:46px;display:grid;place-items:center;border-radius:12px;margin-bottom:12px;
+  background:linear-gradient(135deg, rgba(0,191,166,.22), rgba(92,225,214,.16));border:1px solid rgba(0,191,166,.35)}
+.card h3{margin:6px 0 8px}
+.card p{color:var(--muted)}
 
-    /* steps */
-    .steps{display:grid; grid-template-columns:repeat(4,1fr); gap:16px}
-    .step{position:relative}
-    .step .num{position:absolute; top:-10px; right:-10px; background:rgba(255,255,255,.08); border:1px solid var(--stroke); width:30px; height:30px; border-radius:50%; display:grid; place-items:center; font-weight:800; color:#c9d6ea}
+/* pricing */
+.pricing{grid-template-columns:repeat(3,1fr)}
+.price{font-weight:800;font-size:2rem}
+.price small{font-size:.9rem;color:var(--muted)}
+.price-card{position:relative}
+.ribbon{position:absolute;top:-10px;left:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#00110e;
+  font-weight:800;padding:6px 10px;border-radius:8px}
+.hit{outline:2px solid rgba(0,191,166,.45)}
 
-    /* pricing */
-    .pricing{display:grid; grid-template-columns:repeat(3,1fr); gap:18px}
-    .price-card{position:relative}
-    .price{font-weight:800; font-size:2rem}
-    .price small{font-size:.9rem; color:var(--muted)}
-    .pc-feature{display:flex; align-items:center; gap:10px; margin:8px 0; color:#cfe2ff}
-    .pc-feature svg{width:18px; height:18px; flex:0 0 18px}
-    .hit{outline:2px solid rgba(0,191,166,.45)}
-    .ribbon{
-      position:absolute; top:-10px; left:14px; background:linear-gradient(135deg,var(--accent),var(--accent-2));
-      color:#00110e; font-weight:800; padding:6px 10px; border-radius:8px
-    }
+/* reveal */
+.reveal{opacity:0;transform:translateY(18px);transition:.7s ease}
+.reveal.show{opacity:1;transform:none}
 
-    /* testimonials */
-    .testi{display:grid; grid-template-columns:repeat(3,1fr); gap:18px}
-    blockquote{margin:0; color:#dfe8ff; font-weight:500}
-    .who{margin-top:10px; color:var(--muted); font-size:.95rem}
+/* contact */
+.contact{display:grid;grid-template-columns:1.2fr .8fr;gap:18px}
+form{display:grid;gap:12px;background:var(--card);border:1px solid var(--stroke);padding:18px;border-radius:var(--radius)}
+input,textarea{width:100%;padding:12px 14px;background:#0e1630;color:var(--txt);border:1px solid var(--stroke);border-radius:10px;font:inherit}
+.note{color:var(--muted);font-size:.9rem}
 
-    /* faq */
-    details{
-      background:var(--card); border:1px solid var(--stroke); border-radius:12px; padding:14px 18px
-    }
-    details+details{margin-top:12px}
-    summary{cursor:pointer; font-weight:700}
-    details p{color:var(--muted)}
+/* footer */
+footer{padding:34px 0;border-top:1px solid var(--stroke);background:linear-gradient(0deg, rgba(10,15,28,.8), rgba(10,15,28,.35));text-align:center}
 
-    /* contact */
-    .contact{
-      display:grid; grid-template-columns:1.2fr .8fr; gap:18px; align-items:stretch
-    }
-    form{
-      display:grid; gap:12px; background:var(--card); border:1px solid var(--stroke); padding:18px; border-radius:var(--radius)
-    }
-    input, textarea{
-      width:100%; padding:12px 14px; background:#0e1630; color:var(--txt);
-      border:1px solid var(--stroke); border-radius:10px; font:inherit
-    }
-    .note{color:var(--muted); font-size:.9rem}
-
-    /* footer */
-    footer{padding:34px 0; border-top:1px solid var(--stroke); background:linear-gradient(0deg, rgba(10,15,28,.8), rgba(10,15,28,.35)); text-align:center}
-    footer a{color:var(--muted); text-decoration:none}
-
-    /* responsive */
-    @media (max-width: 980px){
-      .hero-grid{grid-template-columns:1fr}
-      .grid.cols-3, .steps, .pricing, .testi, .contact{grid-template-columns:1fr}
-      .navlinks{display:none}
-    }
-  </style>
+/* responsive */
+@media (max-width:980px){
+  .navlinks{display:none}
+  .cols-3,.pricing,.contact{grid-template-columns:1fr}
+}
+</style>
 </head>
 <body>
-  <div class="blob"></div><div class="blob2"></div>
+<header>
+  <div class="container nav">
+    <a class="brand" href="#top" aria-label="WorkLess — strona główna">
+      <!-- PROSTE LOGO SVG (podmień na swoje, jeśli chcesz) -->
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <defs><linearGradient id="g" x1="0" x2="1"><stop offset="0%" stop-color="#00bfa6"/><stop offset="100%" stop-color="#5ce1d6"/></linearGradient></defs>
+        <rect x="6" y="6" width="52" height="52" rx="14" fill="url(#g)"/>
+        <path d="M20 36l8 8 16-20" fill="none" stroke="#031b18" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <b>WorkLess AI</b>
+    </a>
+    <nav class="navlinks">
+      <a href="#uslugi">Usługi</a>
+      <a href="#cennik">Cennik</a>
+      <a href="#kontakt">Kontakt</a>
+      <button class="cta ghost" onclick="scrollToId('kontakt')">Darmowa konsultacja</button>
+    </nav>
+  </div>
+</header>
 
-  <header>
-    <div class="container nav">
-      <a class="brand" href="#top" aria-label="WorkLess — strona główna">
-        <!-- LOGO SVG — możesz podmienić tekst na własny znak -->
-        <svg viewBox="0 0 64 64" aria-hidden="true">
-          <defs>
-            <linearGradient id="g" x1="0" x2="1">
-              <stop offset="0%" stop-color="#00bfa6"/><stop offset="100%" stop-color="#5ce1d6"/>
-            </linearGradient>
-          </defs>
-          <rect x="6" y="6" width="52" height="52" rx="14" fill="url(#g)" />
-          <path d="M20 36l8 8 16-20" fill="none" stroke="#021c18" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <b>WorkLess</b>
-      </a>
-      <nav class="navlinks">
-        <a href="#uslugi">Usługi</a>
-        <a href="#jak">Jak to działa</a>
-        <a href="#cennik">Cennik</a>
-        <a href="#faq">FAQ</a>
-        <a href="#kontakt">Kontakt</a>
-        <button class="cta ghost" onclick="document.getElementById('kontakt').scrollIntoView({behavior:'smooth'})">Darmowa konsultacja</button>
-      </nav>
+<main id="top">
+  <!-- HERO -->
+  <section class="hero">
+    <canvas id="fx"></canvas>
+    <div class="glow1"></div><div class="glow2"></div>
+    <div class="hero-inner reveal show">
+      <span class="kicker">Automatyzacja w 7 dni — bez kodowania</span>
+      <h1 class="title">Pracuj mniej, osiągaj więcej.</h1>
+      <p class="subtitle">Chatboty 24/7, generatory ofert, raporty i analizy. Wdrażamy proste narzędzia AI, które oszczędzają czas i zwiększają zysk.</p>
+      <div class="hero-actions">
+        <button class="cta" onclick="scrollToId('cennik')">Zobacz pakiety</button>
+        <button class="cta ghost" onclick="scrollToId('uslugi')">Co robimy?</button>
+      </div>
     </div>
-  </header>
+  </section>
 
-  <main id="top">
-    <!-- HERO -->
-    <section class="hero">
-      <div class="container hero-grid">
-        <div>
-          <span class="kicker">Automatyzacja w 7 dni — bez kodowania</span>
-          <h1 class="title">Pracuj mniej. Zarabiaj więcej. <br/>Zaproś AI do swojej firmy.</h1>
-          <p class="subtitle">Wdrażamy proste narzędzia AI: chatboty 24/7, generatory ofert i raportów, analizy opinii. Mniej klików, więcej klientów — <b>WorkLess</b>.</p>
-          <div class="hero-actions">
-            <button class="cta" onclick="document.getElementById('cennik').scrollIntoView({behavior:'smooth'})">Zobacz pakiety</button>
-            <button class="cta ghost" onclick="document.getElementById('uslugi').scrollIntoView({behavior:'smooth'})">Co robimy?</button>
-          </div>
-        </div>
-        <div class="preview">
-          <div class="preview-inner">
-            <div class="windowbar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
-            <pre class="code"><kbd>// demo: generator ofert</kbd>
-Firmowe dane ➜  wklejasz formularz
-Zakres i ceny ➜  AI wylicza i układa sekcje
-PDF z logo   ➜  dostajesz w 60 sekund
-
-<kbd>// demo: chatbot 24/7</kbd>
-Klient pyta o cennik ➜ AI odpowiada
-Chce termin?        ➜ AI rezerwuje
-Po godzinach?       ➜ nie tracisz leadów
-<span class="badge">+3h dziennie oszczędności</span></pre>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- USŁUGI -->
-    <section id="uslugi">
-      <div class="container">
-        <h2 class="section-title">Gotowe rozwiązania AI</h2>
-        <p class="section-note">Wybierasz pakiet. My wdrażamy. Ty masz święty spokój.</p>
-        <div class="grid cols-3">
-          <div class="card">
-            <div class="icon">🤖</div>
-            <h3>Chatbot 24/7</h3>
-            <p>Odpowiada na pytania, zbiera leady, rezerwuje wizyty. Messenger/WWW/WhatsApp.</p>
-          </div>
-          <div class="card">
-            <div class="icon">📄</div>
-            <h3>Generator ofert</h3>
-            <p>Wprowadzisz zakres — w minutę masz gotowy PDF z logo, cenami i warunkami.</p>
-          </div>
-          <div class="card">
-            <div class="icon">📊</div>
-            <h3>Raporty sprzedaży</h3>
-            <p>Tygodniowe podsumowania z Excela/CRM. AI wyciąga wnioski i rekomendacje.</p>
-          </div>
-          <div class="card">
-            <div class="icon">✍️</div>
-            <h3>Marketing treści</h3>
-            <p>Posty, newslettery i opisy produktów w tonie Twojej marki, gotowe do publikacji.</p>
-          </div>
-          <div class="card">
-            <div class="icon">📦</div>
-            <h3>Obsługa zamówień</h3>
-            <p>Statusy, reklamacje i dostępność — AI odpowiada szybciej niż e-mail.</p>
-          </div>
-          <div class="card">
-            <div class="icon">⭐</div>
-            <h3>Analiza opinii</h3>
-            <p>Google/Facebook/TripAdvisor: przegląd nastroju + propozycje odpowiedzi.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- STEPS -->
-    <section id="jak">
-      <div class="container">
-        <h2 class="section-title">Jak to działa?</h2>
-        <p class="section-note">Zero stresu. Szybkie wdrożenie. Realne efekty.</p>
-        <div class="steps">
-          <div class="card step"><span class="num">1</span><h3>Rozmowa</h3><p>Poznanie procesów i wyboru szybkich wygranych.</p></div>
-          <div class="card step"><span class="num">2</span><h3>Prototyp</h3><p>Twoje demo na realnych danych — bez zobowiązań.</p></div>
-          <div class="card step"><span class="num">3</span><h3>Wdrożenie</h3><p>Konfiguracja w 7 dni + krótkie szkolenie zespołu.</p></div>
-          <div class="card step"><span class="num">4</span><h3>Wsparcie</h3><p>Abonament i drobne usprawnienia co miesiąc.</p></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- PRICING -->
-    <section id="cennik">
-      <div class="container">
-        <h2 class="section-title">Pakiety i ceny</h2>
-        <p class="section-note">Przejrzyście. Bez ukrytych kosztów. Dopasujemy do Twojej firmy.</p>
-        <div class="pricing">
-          <div class="card price-card">
-            <h3>Start</h3>
-            <div class="price">1 200 zł <small>jednorazowo</small></div>
-            <div class="pc-feature"><?xml version="1.0"?><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>1 narzędzie AI</div>
-            <div class="pc-feature"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Wdrożenie w 7 dni</div>
-            <div class="pc-feature"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Szkolenie 1h</div>
-            <button class="cta" onclick="gotoContact('Start')">Wybieram Start</button>
-          </div>
-          <div class="card price-card hit">
-            <div class="ribbon">Najczęściej wybierany</div>
-            <h3>Biznes</h3>
-            <div class="price">2 500 zł <small>jednorazowo</small></div>
-            <div class="pc-feature"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>3 narzędzia AI</div>
-            <div class="pc-feature"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Wdrożenie + integracje</div>
-            <div class="pc-feature"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Szkolenie 2h</div>
-            <button class="cta" onclick="gotoContact('Biznes')">Wybieram Biznes</button>
-          </div>
-          <div class="card price-card">
-            <h3>Wsparcie</h3>
-            <div class="price">300–500 zł <small>/mies.</small></div>
-            <div class="pc-feature"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Monitoring i poprawki</div>
-            <div class="pc-feature"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Nowe szablony</div>
-            <div class="pc-feature"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Priorytetowe wsparcie</div>
-            <button class="cta" onclick="gotoContact('Wsparcie')">Wybieram Wsparcie</button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- TESTIMONIALS -->
-    <section>
-      <div class="container">
-        <h2 class="section-title">Co mówią klienci</h2>
-        <p class="section-note">Pierwsze wdrożenia, realne oszczędności czasu i więcej zamówień.</p>
-        <div class="testi">
-          <div class="card">
-            <blockquote>„Chatbot odpowiada w nocy — nie tracimy już zapytań. 2–3 dodatkowe wizyty dziennie.”</blockquote>
-            <div class="who">Katarzyna, salon beauty</div>
-          </div>
-          <div class="card">
-            <blockquote>„Oferty w minutę zamiast godzin — handlowcy skupiają się na sprzedaży, nie na klepaniu PDF-ów.”</blockquote>
-            <div class="who">Marek, firma budowlana</div>
-          </div>
-          <div class="card">
-            <blockquote>„Cotygodniowe raporty z rekomendacjami AI — wreszcie wiemy, co poprawiać.”</blockquote>
-            <div class="who">Anna, e‑commerce</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- FAQ -->
-    <section id="faq">
-      <div class="container">
-        <h2 class="section-title">FAQ — częste pytania</h2>
-        <div class="grid">
-          <details open>
-            <summary>Nie mamy działu IT. Czy damy radę?</summary>
-            <p>Tak — wdrażamy gotowe narzędzia bez kodowania, a po wdrożeniu dostajesz krótką instrukcję.</p>
-          </details>
-          <details>
-            <summary>Ile to trwa?</summary>
-            <p>Standardowe wdrożenie trwa 3–7 dni, w zależności od liczby integracji.</p>
-          </details>
-          <details>
-            <summary>Czy to bezpieczne dla danych?</summary>
-            <p>Używamy narzędzi zgodnych z RODO. Dane klientów nie są wykorzystywane do trenowania modeli.</p>
-          </details>
-          <details>
-            <summary>Co jeśli AI „pomyli się”?</summary>
-            <p>Ustawiamy reguły i limity, a wrażliwe działania mają ręczną akceptację. Monitorujemy wyniki w abonamencie.</p>
-          </details>
-        </div>
-      </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section id="kontakt">
-      <div class="container">
-        <h2 class="section-title">Umów darmową konsultację</h2>
-        <p class="section-note">Opowiesz nam o procesach, a my pokażemy Ci demo na danych Twojej firmy.</p>
-        <div class="contact">
-          <form onsubmit="sendMail(event)">
-            <input type="text" id="name" placeholder="Imię i nazwisko" required>
-            <input type="email" id="email" placeholder="E‑mail" required>
-            <input type="text" id="plan" placeholder="Interesujący pakiet (Start/Biznes/Wsparcie)">
-            <textarea id="msg" rows="5" placeholder="Kilka słów o Twojej firmie / problemie" required></textarea>
-            <button class="cta" type="submit">Wyślij</button>
-            <div class="note">Formularz używa Twojego klienta poczty (mailto). Jeśli wolisz — napisz bezpośrednio: <b>kontakt@worklessai.pl</b></div>
-          </form>
-          <div class="card" style="display:flex; flex-direction:column; justify-content:center; padding:24px">
-            <h3>Kontakt</h3>
-            <p class="pc-feature" style="margin:10px 0 0 0">📧 kontakt@worklessai.pl</p>
-            <p class="pc-feature" style="margin:4px 0 0 0">📞 +48 123 456 789</p>
-            <p class="pc-feature" style="margin:4px 0 0 0">📍 Polska — online / lokalnie</p>
-            <p class="note" style="margin-top:14px">Godziny: pn–pt 9:00–17:00 • Szybkie odpowiedzi w 24h</p>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
+  <!-- USŁUGI -->
+  <section id="uslugi">
     <div class="container">
-      © <span id="y"></span> WorkLess • <a href="#faq">Polityka prywatności (wkrótce)</a>
+      <h2 class="section-title">Gotowe rozwiązania AI</h2>
+      <p class="section-note">Największy efekt w najkrótszym czasie.</p>
+      <div class="grid cols-3">
+        <div class="card reveal">
+          <div class="icon">🤖</div>
+          <h3>Chatbot 24/7</h3>
+          <p>Odpowiada na pytania, zbiera leady, rezerwuje wizyty. WWW / Messenger / WhatsApp.</p>
+        </div>
+        <div class="card reveal">
+          <div class="icon">📄</div>
+          <h3>Generator ofert</h3>
+          <p>W 60 sekund masz PDF z logo, zakresem, ceną i warunkami. Koniec z ręcznym klepaniem.</p>
+        </div>
+        <div class="card reveal">
+          <div class="icon">📊</div>
+          <h3>Raporty sprzedaży</h3>
+          <p>Tygodniowe podsumowania z Excela/CRM + rekomendacje AI, co poprawić.</p>
+        </div>
+        <div class="card reveal">
+          <div class="icon">✍️</div>
+          <h3>Marketing treści</h3>
+          <p>Posty, newslettery i opisy produktów w tonie Twojej marki, gotowe do publikacji.</p>
+        </div>
+        <div class="card reveal">
+          <div class="icon">📦</div>
+          <h3>Obsługa zamówień</h3>
+          <p>Statusy, reklamacje i dostępność — AI odpowiada szybciej niż e-mail.</p>
+        </div>
+        <div class="card reveal">
+          <div class="icon">⭐</div>
+          <h3>Analiza opinii</h3>
+          <p>Google/Facebook/TripAdvisor: przegląd nastroju + gotowe odpowiedzi.</p>
+        </div>
+      </div>
     </div>
-  </footer>
+  </section>
 
-  <script>
-    // dynamic year
-    document.getElementById('y').textContent = new Date().getFullYear();
+  <!-- CENNIK -->
+  <section id="cennik">
+    <div class="container">
+      <h2 class="section-title">Pakiety i ceny</h2>
+      <p class="section-note">Prosto, przejrzyście — bez ukrytych kosztów.</p>
+      <div class="grid pricing">
+        <div class="card price-card reveal">
+          <h3>Start</h3>
+          <div class="price">1 200 zł <small>jednorazowo</small></div>
+          <p class="section-note">1 narzędzie AI • wdrożenie w 7 dni • szkolenie 1h</p>
+          <button class="cta" onclick="fillPlan('Start')">Wybieram Start</button>
+        </div>
+        <div class="card price-card hit reveal">
+          <div class="ribbon">Najczęściej wybierany</div>
+          <h3>Biznes</h3>
+          <div class="price">2 500 zł <small>jednorazowo</small></div>
+          <p class="section-note">3 narzędzia AI • integracje • szkolenie 2h</p>
+          <button class="cta" onclick="fillPlan('Biznes')">Wybieram Biznes</button>
+        </div>
+        <div class="card price-card reveal">
+          <h3>Wsparcie</h3>
+          <div class="price">300–500 zł <small>/mies.</small></div>
+          <p class="section-note">Monitoring • poprawki • nowe szablony</p>
+          <button class="cta" onclick="fillPlan('Wsparcie')">Wybieram Wsparcie</button>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    // contact via mailto
-    function gotoContact(plan){
-      document.getElementById('kontakt').scrollIntoView({behavior:'smooth'});
-      const planInput = document.getElementById('plan');
-      if(planInput) planInput.value = plan;
+  <!-- KONTAKT -->
+  <section id="kontakt">
+    <div class="container">
+      <h2 class="section-title">Umów darmową konsultację</h2>
+      <p class="section-note">Opowiedz nam o procesach, a pokażemy Ci demo na danych Twojej firmy.</p>
+      <div class="contact">
+        <form onsubmit="sendMail(event)">
+          <input type="text" id="name" placeholder="Imię i nazwisko" required>
+          <input type="email" id="email" placeholder="E-mail" required>
+          <input type="text" id="plan" placeholder="Interesujący pakiet (Start/Biznes/Wsparcie)">
+          <textarea id="msg" rows="5" placeholder="Kilka słów o Twojej firmie / problemie" required></textarea>
+          <button class="cta" type="submit">Wyślij</button>
+          <div class="note">Lub napisz bezpośrednio: <b>kontakt@worklessai.pl</b> • tel. <b>+48 123 456 789</b></div>
+        </form>
+        <div class="card" style="display:flex;flex-direction:column;justify-content:center;padding:24px">
+          <h3>Dane kontaktowe</h3>
+          <p class="section-note" style="margin:8px 0 0">📧 kontakt@worklessai.pl</p>
+          <p class="section-note" style="margin:4px 0 0">📞 +48 123 456 789</p>
+          <p class="section-note" style="margin:4px 0 0">📍 Polska — online / lokalnie</p>
+          <p class="note" style="margin-top:12px">Godziny: pn–pt 9:00–17:00 • Odpowiadamy w 24h</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    © <span id="y"></span> WorkLess AI • <a href="#kontakt">Polityka prywatności (wkrótce)</a>
+  </div>
+</footer>
+
+<script>
+/* dynamic year */
+document.getElementById('y').textContent = new Date().getFullYear();
+
+/* smooth scroll + fill plan */
+function scrollToId(id){document.getElementById(id).scrollIntoView({behavior:'smooth'})}
+function fillPlan(p){scrollToId('kontakt');const i=document.getElementById('plan');if(i) i.value=p}
+
+/* mailto submit (bez backendu) */
+function sendMail(e){
+  e.preventDefault();
+  const name=encodeURIComponent(document.getElementById('name').value.trim());
+  const email=encodeURIComponent(document.getElementById('email').value.trim());
+  const plan=encodeURIComponent(document.getElementById('plan').value.trim());
+  const msg=encodeURIComponent(document.getElementById('msg').value.trim());
+  const subject=`WorkLess — zapytanie (${plan||'konsultacja'})`;
+  const body=`Imię i nazwisko: ${name}%0D%0AE-mail: ${email}%0D%0APlan: ${plan}%0D%0A%0D%0AOpis:%0D%0A${msg}`;
+  window.location.href=`mailto:kontakt@worklessai.pl?subject=${subject}&body=${body}`;
+}
+
+/* reveal-on-scroll */
+const obs=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('show');obs.unobserve(e.target)}})},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+/* particles (canvas) */
+(function(){
+  const c=document.getElementById('fx'), ctx=c.getContext('2d');
+  let w,h,px,py,parts=[];
+  function resize(){w=window.innerWidth;h=Math.max(window.innerHeight*0.78,520);c.width=w;c.height=h}
+  function rand(a,b){return Math.random()*(b-a)+a}
+  function reset(p){
+    p.x=rand(0,w);p.y=rand(0,h);
+    p.vx=rand(-.25,.25);p.vy=rand(-.25,.25);
+    p.r=rand(0.5,2.2);p.a=rand(.25,.75);
+    p.h=rand(170,210); // turkus/błękit
+  }
+  function init(){
+    resize();
+    const n=Math.min(140, Math.floor(w*h/12000));
+    parts=new Array(n).fill(0).map(()=>({})); parts.forEach(reset);
+    px=w/2;py=h/2;loop();
+  }
+  window.addEventListener('resize',resize);
+  window.addEventListener('mousemove',e=>{const r=c.getBoundingClientRect();px=e.clientX-r.left;py=e.clientY-r.top});
+  function loop(){
+    ctx.clearRect(0,0,w,h);
+    // subtle vignette
+    const grd=ctx.createRadialGradient(w*.5,h*.5,0,w*.5,h*.5,Math.max(w,h)*.8);
+    grd.addColorStop(0,'rgba(10,15,28,0)');
+    grd.addColorStop(1,'rgba(10,15,28,0.35)');
+    ctx.fillStyle=grd;ctx.fillRect(0,0,w,h);
+
+    // draw particles
+    parts.forEach(p=>{
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.x<-50||p.x>w+50||p.y<-50||p.y>h+50) reset(p);
+      // parallax pull to mouse
+      const dx=px-p.x, dy=py-p.y, d=Math.hypot(dx,dy);
+      const pull = Math.max(0, 80 - d)/8000;
+      p.vx += dx*pull; p.vy += dy*pull;
+
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=`hsla(${p.h}, 80%, 60%, ${p.a})`;
+      ctx.fill();
+    });
+
+    // soft connections
+    for(let i=0;i<parts.length;i++){
+      const a=parts[i];
+      for(let j=i+1;j<i+12 && j<parts.length;j++){
+        const b=parts[j];
+        const dx=a.x-b.x, dy=a.y-b.y, d=dx*dx+dy*dy;
+        if(d<9000){
+          const o=1 - (d/9000);
+          ctx.strokeStyle=`rgba(92,225,214,${o*0.25})`;
+          ctx.lineWidth=1;
+          ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+        }
+      }
     }
-    function sendMail(e){
-      e.preventDefault();
-      const name = encodeURIComponent(document.getElementById('name').value.trim());
-      const email = encodeURIComponent(document.getElementById('email').value.trim());
-      const plan = encodeURIComponent(document.getElementById('plan').value.trim());
-      const msg = encodeURIComponent(document.getElementById('msg').value.trim());
-      const subject = `WorkLess — zapytanie (${plan || 'konsultacja'})`;
-      const body = `Imię i nazwisko: ${name}%0D%0AE‑mail: ${email}%0D%0APlan: ${plan}%0D%0A%0D%0AOpis:%0D%0A${msg}`;
-      window.location.href = `mailto:kontakt@worklessai.pl?subject=${subject}&body=${body}`;
-    }
-  </script>
+    requestAnimationFrame(loop);
+  }
+  init();
+})();
+</script>
 </body>
 </html>
