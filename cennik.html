@@ -1,0 +1,336 @@
+<!DOCTYPE html><html lang="pl"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Cennik — Subskrypcja | WorkLess AI</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
+<script src="https://unpkg.com/three@0.157.0/build/three.min.js"></script>
+<script src="https://unpkg.com/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<style>
+:root{
+  --bg:#0a0f1c;--txt:#eaf2ff;--muted:#b4c1d8;--accent:#00bfa6;--accent2:#5ce1d6;
+  --card:rgba(255,255,255,.08);--stroke:rgba(255,255,255,.12);
+  --radius:18px;--shadow:0 18px 60px rgba(0,0,0,.5)
+}
+*{box-sizing:border-box}html,body{height:100%}
+body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--txt);background:var(--bg)}
+a{color:var(--accent);text-decoration:none}
+.container{max-width:1200px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:0;z-index:50;backdrop-filter:saturate(140%) blur(12px);
+  background:linear-gradient(180deg,rgba(10,15,28,.9),rgba(10,15,28,.35));border-bottom:1px solid var(--stroke)}
+.nav{height:78px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+
+/* BRAND – zębatka */
+.brand{display:flex;align-items:center;gap:12px;color:var(--txt);font-weight:900;font-size:1.1rem}
+.brand svg{width:42px;height:42px}.brand .gear{transform-origin:50% 50%;transition:transform .25s}
+.brand:hover .gear{animation:spin 1.2s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+
+/* menu + CTA */
+.menu{display:flex;gap:16px;align-items:center}
+.menu a{color:var(--muted);font-weight:700}
+.btn{appearance:none;border:none;border-radius:12px;padding:12px 16px;font-weight:900;cursor:pointer;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));color:#00110e;box-shadow:0 10px 24px rgba(0,191,166,.25)}
+.btn.ghost{background:transparent;color:var(--txt);border:1px solid var(--stroke);box-shadow:none}
+.btn.pill{border-radius:999px}
+.btn.cta{background:linear-gradient(135deg,#00ffc2,#5ce1ff);color:#001018;letter-spacing:.2px;font-weight:900;
+  box-shadow:0 14px 34px rgba(0,255,194,.25),0 0 0 2px rgba(255,255,255,.08) inset;padding:13px 18px}
+.btn.cta:hover{filter:saturate(115%);transform:translateY(-1px)}
+
+/* HERO 3D */
+.hero{position:relative;min-height:58vh;display:grid;place-items:center;overflow:hidden;border-bottom:1px solid var(--stroke);padding:0}
+#stage{position:absolute;inset:0;z-index:-2}
+.hero-center{text-align:center;padding:90px 20px 60px}
+.kicker{display:inline-block;padding:6px 12px;border:1px solid var(--stroke);border-radius:999px;color:var(--muted);font-weight:800}
+.title{font-size:clamp(2.2rem,4.2vw,3.4rem);line-height:1.05;margin:14px 0 12px;font-weight:900;letter-spacing:.2px}
+.subtitle{color:var(--muted);max-width:72ch;margin:0 auto 20px}
+
+/* sekcje */
+section{padding:80px 0}
+.section-title{font-size:2.1rem;margin:0 0 10px}
+.section-note{color:var(--muted);margin-bottom:28px}
+
+/* przełączniki */
+.controls{display:flex;gap:12px;justify-content:center;align-items:center;flex-wrap:wrap}
+.switch{display:inline-flex;border:1px solid var(--stroke);padding:4px;border-radius:999px}
+.switch button{border:0;background:transparent;color:var(--muted);padding:8px 14px;border-radius:999px;cursor:pointer;font-weight:800}
+.switch button.active{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#00110e}
+#currency{min-width:74px;text-align:center}
+
+/* GRID kart – równe doły */
+.grid{display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.card{position:relative;background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.02));border:1px solid var(--stroke);
+  border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);display:flex;flex-direction:column}
+.ribbon{position:absolute;top:-12px;left:16px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#00110e;font-weight:900;padding:6px 10px;border-radius:8px}
+.price{font-size:2rem;font-weight:900;margin:8px 0 2px}
+.unit{font-size:.95rem;color:var(--muted)}
+.hr{height:1px;background:var(--stroke);margin:18px 0}
+.features{flex:1}
+.card ul{list-style:none;padding:0;margin:0}
+.card li{padding:10px 0;border-bottom:1px solid var(--stroke)}
+.card li:last-child{border-bottom:0}
+.actions{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+.actions .btn{flex:0 0 auto}
+
+/* informacja pod tabelą */
+.info-note{margin-top:26px;color:var(--muted);font-size:.95rem;text-align:center}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease, transform .7s ease}
+.reveal.show{opacity:1;transform:none}
+@media(max-width:980px){.menu{display:none}}
+</style>
+</head><body>
+
+<header>
+  <div class="container nav">
+    <a class="brand" href="/index.html" aria-label="WorkLess AI — strona główna">
+      <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <g class="gear" fill="none" stroke="#00d8c0" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="32" cy="32" r="10"/><path d="M32 8v8M32 48v8M8 32h8M48 32h8M14 14l6 6M44 44l6 6M50 14l-6 6M14 50l6-6"/>
+        </g>
+      </svg><b>WorkLess AI</b>
+    </a>
+    <nav class="menu">
+      <a href="/index.html">Start</a>
+      <a href="/uslugi.html">Usługi</a>
+      <a href="/cennik.html" class="btn ghost">Cennik</a>
+      <a href="/o-nas.html">O nas</a>
+      <a href="/blog.html">Blog</a>
+      <a href="/faq.html">FAQ</a>
+      <a href="/kontakt.html">Kontakt</a>
+      <a href="/kontakt.html" class="btn pill cta">Darmowa konsultacja</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO z animacją -->
+<section class="hero">
+  <canvas id="stage"></canvas>
+  <div class="hero-center" data-aos="fade-up">
+    <span class="kicker">Prosto i przewidywalnie</span>
+    <h1 class="title">Subskrypcja WorkLess AI</h1>
+    <p class="subtitle">Wdrożenie w cenie pierwszego miesiąca. Bez długich umów — anulujesz, kiedy chcesz.</p>
+    <div class="controls">
+      <span class="section-note" style="margin:0">Okres:</span>
+      <div class="switch" role="tablist" aria-label="Okres rozliczeń">
+        <button id="bill-m" class="active" aria-selected="true">Miesiąc</button>
+        <button id="bill-y" aria-selected="false">Rok −10%</button>
+      </div>
+      <span class="section-note" style="margin:0">Podatek:</span>
+      <div class="switch" role="tablist" aria-label="Tryb podatku">
+        <button id="tax-net" aria-selected="false">Netto</button>
+        <button id="tax-gross" class="active" aria-selected="true">Brutto</button>
+      </div>
+      <span class="section-note" style="margin:0">Waluta:</span>
+      <button id="currency" class="btn pill">PLN</button>
+    </div>
+  </div>
+</section>
+
+<section class="container" data-aos="fade-up" style="text-align:center">
+  <p class="section-note" id="taxNote" style="max-width:820px;margin:0 auto 26px">
+    Ceny <b>brutto</b> (VAT 23%). W planie rocznym naliczamy rabat 10% — jedna faktura z góry.
+  </p>
+
+  <div class="grid">
+    <!-- START -->
+    <div class="card reveal" data-aos="fade-up">
+      <h3>Start</h3>
+      <div class="price" data-pln="399" data-month="399">399 zł</div>
+      <div class="unit">miesięcznie</div>
+      <div class="hr"></div>
+      <div class="features">
+        <ul>
+          <li><b>1 narzędzie AI</b> (chatbot / generator ofert / raport tygodniowy)</li>
+          <li><b>Wdrożenie 0 zł</b> (w cenie 1. miesiąca)</li>
+          <li><b>Szkolenie 1h</b> + materiały</li>
+          <li><b>Wsparcie e-mail</b> 48h</li>
+        </ul>
+        <p class="unit" style="margin-top:10px">Dla firm, które chcą zacząć bez ryzyka.</p>
+      </div>
+      <div class="actions">
+        <a class="btn pill cta" href="/kontakt.html">Wybieram</a>
+        <a class="btn pill" href="/kontakt.html">Kup teraz</a>
+      </div>
+    </div>
+
+    <!-- BIZNES -->
+    <div class="card reveal" data-aos="fade-up" data-aos-delay="60" style="outline:2px solid rgba(0,191,166,.45)">
+      <div class="ribbon">Najczęściej wybierany</div>
+      <h3>Biznes</h3>
+      <div class="price" data-pln="999" data-month="999">999 zł</div>
+      <div class="unit">miesięcznie</div>
+      <div class="hr"></div>
+      <div class="features">
+        <ul>
+          <li><b>3 narzędzia AI</b> (np. chatbot + oferty + raporty)</li>
+          <li><b>Integracje</b> (formularze, e-mail, kalendarz/CRM)</li>
+          <li><b>Szkolenie 2h</b> + nagranie</li>
+          <li><b>Wsparcie</b> priorytet 24h</li>
+          <li><b>Optymalizacja treści</b> co miesiąc</li>
+        </ul>
+        <p class="unit" style="margin-top:10px">Najlepszy balans ceny do efektu.</p>
+      </div>
+      <div class="actions">
+        <a class="btn pill cta" href="/kontakt.html">Wybieram</a>
+        <a class="btn pill" href="/kontakt.html">Kup teraz</a>
+      </div>
+    </div>
+
+    <!-- WSPARCIE -->
+    <div class="card reveal" data-aos="fade-up" data-aos-delay="120">
+      <h3>Wsparcie</h3>
+      <div class="price" data-pln="799" data-month="799">799 zł</div>
+      <div class="unit">miesięcznie</div>
+      <div class="hr"></div>
+      <div class="features">
+        <ul>
+          <li><b>Monitoring</b> jakości i skuteczności</li>
+          <li><b>Nowe szablony</b> (chatbot/raporty/oferty)</li>
+          <li><b>Mini-raport</b> z rekomendacjami</li>
+          <li><b>Wsparcie</b> e-mail 24–48h</li>
+        </ul>
+        <p class="unit" style="margin-top:10px">Dla firm, które chcą systematycznych usprawnień.</p>
+      </div>
+      <div class="actions">
+        <a class="btn pill cta" href="/kontakt.html">Wybieram</a>
+        <a class="btn pill" href="/kontakt.html">Kup teraz</a>
+      </div>
+    </div>
+
+    <!-- FULL -->
+    <div class="card reveal" data-aos="fade-up" data-aos-delay="180">
+      <h3>Full pakiet</h3>
+      <div class="price" data-pln="1999" data-month="1999">1999 zł</div>
+      <div class="unit">miesięcznie</div>
+      <div class="hr"></div>
+      <div class="features">
+        <ul>
+          <li><b>Wszystkie moduły</b>: chatbot + oferty + raporty + analizy opinii + obsługa zamówień</li>
+          <li><b>Zaawansowane integracje</b> (CRM/ERP, webhooki, automatyzacje e-mail/SMS)</li>
+          <li><b>Dashboard KPI</b> + alerty</li>
+          <li><b>Szkolenie 4h</b> + dokumentacja</li>
+          <li><b>Wsparcie premium</b> (SLA 8h)</li>
+        </ul>
+        <p class="unit" style="margin-top:10px">Dla firm nastawionych na pełną automatyzację.</p>
+      </div>
+      <div class="actions">
+        <a class="btn pill cta" href="/kontakt.html">Wybieram</a>
+        <a class="btn pill" href="/kontakt.html">Kup teraz</a>
+      </div>
+    </div>
+  </div>
+
+  <p class="info-note">
+    Subskrypcję możesz anulować w dowolnym momencie (przed końcem bieżącego okresu).  
+    W planie rocznym naliczamy rabat 10% — jedna faktura z góry.
+  </p>
+</section>
+
+<footer style="padding:40px 0;border-top:1px solid var(--stroke);background:linear-gradient(0deg,rgba(10,15,28,.9),rgba(10,15,28,.35));text-align:center">
+  <div class="container" style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+    <div>© <span id="y"></span> WorkLess AI • <a href="/polityka.html">Polityka prywatności</a></div>
+    <div style="color:var(--muted);font-size:.95rem">kontakt@worklessai.pl • +48 123 456 789 • Polska</div>
+  </div>
+</footer>
+
+<script>
+function year(){const y=document.getElementById('y'); if(y) y.textContent=new Date().getFullYear();}
+function reveal(){const o=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('show');o.unobserve(e.target)}}),{threshold:.15});document.querySelectorAll('.reveal,.card').forEach(el=>o.observe(el));}
+function initAOS(){AOS.init({once:true,duration:700,offset:80,easing:'ease-out-cubic'});}
+
+// Waluty, okres, netto/brutto
+function initPricing(){
+  const currencyBtn=document.getElementById('currency');
+  const billM=document.getElementById('bill-m');
+  const billY=document.getElementById('bill-y');
+  const taxNet=document.getElementById('tax-net');
+  const taxGross=document.getElementById('tax-gross');
+  const taxNote=document.getElementById('taxNote');
+
+  const rates={ PLN:1, EUR:0.23, USD:0.25 };
+  const VAT=0.23;
+
+  let currency='PLN'; // PLN/EUR/USD
+  let yearly=false;   // false=month, true=year (-10%)
+  let gross=true;     // true=brutto (z VAT), false=netto
+
+  function format(val){
+    if(currency==='PLN') return Math.round(val).toLocaleString('pl-PL')+' zł';
+    if(currency==='EUR') return val.toFixed(2)+' €';
+    return '$'+val.toFixed(2);
+  }
+
+  function render(){
+    document.querySelectorAll('.price').forEach(el=>{
+      const baseMonthlyPLN = parseFloat(el.dataset.pln||el.dataset.month||0); // baza BRUTTO miesięczna w PLN
+      // okres
+      let amountPLN = yearly ? baseMonthlyPLN*12*0.90 : baseMonthlyPLN;
+      // netto/brutto
+      if(!gross) amountPLN = amountPLN/(1+VAT); // na netto
+      // waluta
+      const out = amountPLN * rates[currency];
+      el.textContent = format(out);
+      // podpis jednostki
+      const unitEl = el.nextElementSibling;
+      if(unitEl) unitEl.textContent = yearly ? (gross?'rocznie (brutto)':'rocznie (netto)') : (gross?'miesięcznie (brutto)':'miesięcznie (netto)');
+    });
+    // notka pod cennikiem
+    taxNote.innerHTML = gross
+      ? 'Ceny <b>brutto</b> (VAT 23%). W planie rocznym naliczamy rabat 10% — jedna faktura z góry.'
+      : 'Ceny <b>netto</b> (bez VAT). W planie rocznym naliczamy rabat 10% — jedna faktura z góry.';
+  }
+
+  // currency
+  currencyBtn.addEventListener('click',()=>{
+    currency = currency==='PLN' ? 'EUR' : currency==='EUR' ? 'USD' : 'PLN';
+    currencyBtn.textContent = currency;
+    render();
+  });
+
+  // billing
+  billM.addEventListener('click',()=>{yearly=false; billM.classList.add('active'); billY.classList.remove('active'); render();});
+  billY.addEventListener('click',()=>{yearly=true; billY.classList.add('active'); billM.classList.remove('active'); render();});
+
+  // tax
+  taxNet.addEventListener('click',()=>{gross=false; taxNet.classList.add('active'); taxGross.classList.remove('active'); render();});
+  taxGross.addEventListener('click',()=>{gross=true; taxGross.classList.add('active'); taxNet.classList.remove('active'); render();});
+
+  render();
+}
+
+// HERO 3D (nasza animacja)
+function init3D(){
+  const canvas=document.getElementById('stage'); if(!canvas||!window.THREE) return;
+  const renderer=new THREE.WebGLRenderer({canvas,antialias:true});
+  const W=()=>innerWidth, H=()=>Math.max(innerHeight*.58,420);
+  function resize(){ renderer.setSize(W(),H(),false); cam.aspect=W()/H(); cam.updateProjectionMatrix(); }
+  renderer.setPixelRatio(Math.min(devicePixelRatio,1.8));
+  const scene=new THREE.Scene(); scene.fog=new THREE.Fog(0x0a0f1c,20,110);
+  const cam=new THREE.PerspectiveCamera(55,W()/H(),.1,400); cam.position.set(0,6,18);
+  scene.add(new THREE.AmbientLight(0x9fe7df,.6));
+  const dir=new THREE.DirectionalLight(0x00bfa6,1.2); dir.position.set(5,10,5); scene.add(dir);
+  const grid=new THREE.Mesh(new THREE.PlaneGeometry(200,200,90,90),
+    new THREE.MeshBasicMaterial({color:0x163956,wireframe:true,transparent:true,opacity:.4}));
+  grid.rotation.x=-Math.PI/2; grid.position.y=-4.2; scene.add(grid);
+  const knot=new THREE.Mesh(new THREE.TorusKnotGeometry(3,.85,220,32),
+    new THREE.MeshStandardMaterial({color:0x2fe3c9,roughness:.2,metalness:.6,emissive:0x0c403b,emissiveIntensity:.8}));
+  knot.position.y=1.2; scene.add(knot);
+  const starsGeo=new THREE.BufferGeometry(); const N=900; const pos=new Float32Array(N*3);
+  for(let i=0;i<N;i++){pos[i*3]=(Math.random()-.5)*120;pos[i*3+1]=Math.random()*60+10;pos[i*3+2]=(Math.random()-.5)*120;}
+  starsGeo.setAttribute('position', new THREE.BufferAttribute(pos,3));
+  scene.add(new THREE.Points(starsGeo,new THREE.PointsMaterial({color:0x5ce1d6,size:.06,transparent:true,opacity:.85})));
+  let frame=0;
+  canvas.addEventListener('mousemove',(e)=>{const nx=(e.clientX/innerWidth-.5), ny=(e.clientY/innerHeight-.5);
+    gsap.to(cam.position,{x:nx*2,y:6+ny*1.2,duration:.6,overwrite:true});});
+  function tick(){frame++; const p=grid.geometry.attributes.position;
+    for(let i=0;i<p.count;i++){const x=p.getX(i), y=p.getY(i);
+      p.setZ(i, Math.sin((x+frame*.6)*.03)*.35 + Math.cos((y+frame*.5)*.03)*.35);}
+    p.needsUpdate=true; knot.rotation.x+=.0035; knot.rotation.y+=.0052; renderer.render(scene,cam); requestAnimationFrame(tick);}
+  addEventListener('resize',resize); resize(); tick();
+}
+
+document.addEventListener('DOMContentLoaded',()=>{year();reveal();initAOS();initPricing();init3D();});
+</script>
+</body></html>

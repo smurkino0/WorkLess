@@ -1,0 +1,158 @@
+<!DOCTYPE html><html lang="pl"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Polityka prywatności — WorkLess AI</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
+<script src="https://unpkg.com/three@0.157.0/build/three.min.js"></script>
+<script src="https://unpkg.com/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<style>
+:root{--bg:#0a0f1c;--txt:#eaf2ff;--muted:#b4c1d8;--accent:#00bfa6;--accent2:#5ce1d6;--stroke:rgba(255,255,255,.12);--shadow:0 18px 60px rgba(0,0,0,.5)}
+*{box-sizing:border-box}html,body{height:100%}
+body{margin:0;font-family:Inter,sans-serif;color:var(--txt);background:var(--bg)}
+a{color:var(--accent);text-decoration:none}
+.container{max-width:1200px;margin:0 auto;padding:0 20px}
+
+/* HEADER */
+header{position:sticky;top:0;z-index:50;backdrop-filter:saturate(140%) blur(12px);background:linear-gradient(180deg,rgba(10,15,28,.9),rgba(10,15,28,.35));border-bottom:1px solid var(--stroke)}
+.nav{height:78px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+.brand{display:flex;align-items:center;gap:12px;font-weight:900;font-size:1.1rem}
+.brand svg{width:42px;height:42px}.brand .gear{transform-origin:50% 50%;transition:transform .25s}
+.brand:hover .gear{animation:spin 1.2s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+.menu{display:flex;gap:16px;align-items:center}
+.menu a{color:var(--muted);font-weight:700}
+.menu a.active{color:#fff;position:relative}
+.menu a.active::after{content:"";position:absolute;left:0;right:0;bottom:-10px;height:3px;border-radius:2px;background:linear-gradient(90deg,var(--accent),var(--accent2))}
+.btn{appearance:none;border:none;border-radius:12px;padding:12px 16px;font-weight:900;cursor:pointer;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#00110e;box-shadow:0 10px 24px rgba(0,191,166,.25)}
+.btn.pill{border-radius:999px}
+.btn.ghost{background:transparent;color:var(--txt);border:1px solid var(--stroke);box-shadow:none}
+.btn.cta{background:linear-gradient(135deg,#00ffc2,#5ce1ff);color:#001018;letter-spacing:.2px;font-weight:900;box-shadow:0 14px 34px rgba(0,255,194,.25),0 0 0 2px rgba(255,255,255,.08) inset;padding:13px 18px}
+.btn.cta:hover{filter:saturate(115%);transform:translateY(-1px)}
+
+/* HERO */
+.hero{position:relative;min-height:40vh;display:grid;place-items:center;overflow:hidden;border-bottom:1px solid var(--stroke)}
+#stage{position:absolute;inset:0;z-index:-2}
+.hero-center{text-align:center;padding:90px 20px 60px}
+.kicker{display:inline-block;padding:6px 12px;border:1px solid var(--stroke);border-radius:999px;color:var(--muted);font-weight:800}
+.title{font-size:clamp(2.2rem,4.2vw,3.4rem);line-height:1.05;margin:14px 0 12px;font-weight:900}
+.subtitle{color:var(--muted);max-width:72ch;margin:0 auto 20px}
+
+/* CONTENT */
+section{padding:60px 0}
+h2{margin-top:30px}
+
+/* CTA BOX */
+.cta-box{margin-top:40px;border:1px solid var(--stroke);border-radius:16px;padding:22px;text-align:center;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));box-shadow:var(--shadow)}
+footer{padding:40px 0;border-top:1px solid var(--stroke);background:linear-gradient(0deg,rgba(10,15,28,.9),rgba(10,15,28,.35));text-align:center}
+.foot{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.foot-mini{color:var(--muted);font-size:.95rem}
+</style>
+</head><body>
+
+<header>
+  <div class="container nav">
+    <a class="brand" href="/index.html">
+      <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><g class="gear" fill="none" stroke="#00d8c0" stroke-width="3"><circle cx="32" cy="32" r="10"/><path d="M32 8v8M32 48v8M8 32h8M48 32h8M14 14l6 6M44 44l6 6M50 14l-6 6M14 50l6-6"/></g></svg>
+      <b>WorkLess AI</b>
+    </a>
+    <nav class="menu">
+      <a href="/index.html">Start</a>
+      <a href="/uslugi.html">Usługi</a>
+      <a href="/cennik.html">Cennik</a>
+      <a href="/o-nas.html">O nas</a>
+      <a href="/blog.html">Blog</a>
+      <a href="/faq.html">FAQ</a>
+      <a href="/kontakt.html">Kontakt</a>
+      <a href="/kontakt.html" class="btn pill cta">Darmowa konsultacja</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <canvas id="stage"></canvas>
+  <div class="hero-center" data-aos="fade-up">
+    <span class="kicker">Regulacje prawne</span>
+    <h1 class="title">Polityka prywatności</h1>
+    <p class="subtitle">Dowiedz się, w jaki sposób przetwarzamy dane osobowe i dbamy o bezpieczeństwo informacji.</p>
+  </div>
+</section>
+
+<section class="container" data-aos="fade-up">
+  <h2>1. Postanowienia ogólne</h2>
+  <p>Niniejsza polityka prywatności opisuje zasady przetwarzania danych osobowych użytkowników serwisu WorkLess AI.</p>
+
+  <h2>2. Administrator danych</h2>
+  <p>Administratorem danych jest WorkLess AI Sp. z o.o., z siedzibą w Warszawie.</p>
+
+  <h2>3. Zakres przetwarzania danych</h2>
+  <p>Przetwarzamy dane takie jak: imię, adres e-mail, numer telefonu, adres IP oraz inne dane dobrowolnie podane przez użytkownika.</p>
+
+  <h2>4. Cele przetwarzania</h2>
+  <ul>
+    <li>Realizacja usług oferowanych w serwisie</li>
+    <li>Obsługa zapytań użytkowników</li>
+    <li>Wysyłka informacji handlowych (za zgodą)</li>
+  </ul>
+
+  <h2>5. Podstawy prawne</h2>
+  <p>Dane przetwarzane są na podstawie zgody użytkownika, w celu wykonania umowy lub wypełnienia obowiązków prawnych.</p>
+
+  <h2>6. Czas przechowywania</h2>
+  <p>Dane przechowujemy przez okres niezbędny do realizacji celu, a następnie przez czas wymagany przepisami prawa.</p>
+
+  <h2>7. Prawa użytkowników</h2>
+  <p>Masz prawo do wglądu, poprawiania, usunięcia oraz ograniczenia przetwarzania danych.</p>
+
+  <h2>8. Kontakt</h2>
+  <p>W sprawach związanych z ochroną danych napisz na: kontakt@worklessai.pl</p>
+
+  <div class="cta-box">
+    <h3>Masz pytania dotyczące prywatności?</h3>
+    <p class="muted">Chętnie odpowiemy i rozwiejemy wątpliwości. Możesz też od razu skorzystać z darmowej konsultacji.</p>
+    <a class="btn pill cta" href="/kontakt.html">Umów darmową konsultację</a>
+  </div>
+</section>
+
+<footer>
+  <div class="container foot">
+    <div>© <span id="y"></span> WorkLess AI • Polityka prywatności</div>
+    <div class="foot-mini">kontakt@worklessai.pl • +48 123 456 789 • Polska</div>
+  </div>
+</footer>
+
+<script>
+// rok
+document.getElementById('y').textContent=new Date().getFullYear();
+
+// HERO 3D (ten sam co w FAQ)
+function init3D(){
+  const canvas=document.getElementById('stage'); if(!canvas||!window.THREE) return;
+  const renderer=new THREE.WebGLRenderer({canvas,antialias:true});
+  const W=()=>innerWidth, H=()=>Math.max(innerHeight*.4,400);
+  function resize(){renderer.setSize(W(),H(),false); cam.aspect=W()/H(); cam.updateProjectionMatrix();}
+  renderer.setPixelRatio(Math.min(devicePixelRatio,1.8));
+  const scene=new THREE.Scene(); scene.fog=new THREE.Fog(0x0a0f1c,20,110);
+  const cam=new THREE.PerspectiveCamera(55,W()/H(),.1,400); cam.position.set(0,6,18);
+  scene.add(new THREE.AmbientLight(0x9fe7df,.6));
+  const dir=new THREE.DirectionalLight(0x00bfa6,1.2); dir.position.set(5,10,5); scene.add(dir);
+  const grid=new THREE.Mesh(new THREE.PlaneGeometry(200,200,90,90),new THREE.MeshBasicMaterial({color:0x163956,wireframe:true,transparent:true,opacity:.4}));
+  grid.rotation.x=-Math.PI/2; grid.position.y=-4.2; scene.add(grid);
+  const knot=new THREE.Mesh(new THREE.TorusKnotGeometry(3,.85,220,32),new THREE.MeshStandardMaterial({color:0x2fe3c9,roughness:.2,metalness:.6,emissive:0x0c403b,emissiveIntensity:.8}));
+  knot.position.y=1.2; scene.add(knot);
+  const starsGeo=new THREE.BufferGeometry(); const N=900; const pos=new Float32Array(N*3);
+  for(let i=0;i<N;i++){pos[i*3]=(Math.random()-.5)*120;pos[i*3+1]=Math.random()*60+10;pos[i*3+2]=(Math.random()-.5)*120;}
+  starsGeo.setAttribute('position', new THREE.BufferAttribute(pos,3));
+  scene.add(new THREE.Points(starsGeo,new THREE.PointsMaterial({color:0x5ce1d6,size:.06,transparent:true,opacity:.85})));
+  let frame=0;
+  canvas.addEventListener('mousemove',(e)=>{const nx=(e.clientX/innerWidth-.5), ny=(e.clientY/innerHeight-.5);
+    gsap.to(cam.position,{x:nx*2,y:6+ny*1.2,duration:.6,overwrite:true});});
+  function tick(){frame++; const p=grid.geometry.attributes.position;
+    for(let i=0;i<p.count;i++){const x=p.getX(i), y=p.getY(i);
+      p.setZ(i, Math.sin((x+frame*.6)*.03)*.35 + Math.cos((y+frame*.5)*.03)*.35);}
+    p.needsUpdate=true; knot.rotation.x+=.0035; knot.rotation.y+=.0052; renderer.render(scene,cam); requestAnimationFrame(tick);}
+  addEventListener('resize',resize); resize(); tick();
+}
+document.addEventListener('DOMContentLoaded',()=>{AOS.init({once:true});init3D();});
+</script>
+</body></html>

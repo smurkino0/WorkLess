@@ -1,0 +1,397 @@
+<!DOCTYPE html><html lang="pl"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Usługi — WorkLess AI</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
+<script src="https://unpkg.com/three@0.157.0/build/three.min.js"></script>
+<script src="https://unpkg.com/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<style>
+:root{
+  --bg:#0a0f1c;--txt:#eaf2ff;--muted:#b4c1d8;--accent:#00bfa6;--accent2:#5ce1d6;
+  --card:rgba(255,255,255,.08);--stroke:rgba(255,255,255,.12);--radius:18px;--shadow:0 18px 60px rgba(0,0,0,.5)
+}
+*{box-sizing:border-box}html,body{height:100%}
+body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--txt);background:var(--bg)}
+a{color:var(--accent);text-decoration:none}
+.container{max-width:1200px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:0;z-index:50;backdrop-filter:saturate(140%) blur(12px);
+  background:linear-gradient(180deg,rgba(10,15,28,.9),rgba(10,15,28,.35));border-bottom:1px solid var(--stroke)}
+.nav{height:78px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+
+/* BRAND – zębatka */
+.brand{display:flex;align-items:center;gap:12px;color:var(--txt);font-weight:900;font-size:1.1rem}
+.brand svg{width:42px;height:42px}.brand .gear{transform-origin:50% 50%;transition:transform .25s}
+.brand:hover .gear{animation:spin 1.2s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+
+/* menu + CTA */
+.menu{display:flex;gap:16px;align-items:center}
+.menu a{color:var(--muted);font-weight:700}
+.btn{appearance:none;border:none;border-radius:12px;padding:12px 16px;font-weight:900;cursor:pointer;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));color:#00110e;box-shadow:0 10px 24px rgba(0,191,166,.25)}
+.btn.ghost{background:transparent;color:var(--txt);border:1px solid var(--stroke);box-shadow:none}
+.btn.pill{border-radius:999px}
+.btn.cta{background:linear-gradient(135deg,#00ffc2,#5ce1ff);color:#001018;letter-spacing:.2px;font-weight:900;
+  box-shadow:0 14px 34px rgba(0,255,194,.25),0 0 0 2px rgba(255,255,255,.08) inset;padding:13px 18px}
+.btn.cta:hover{filter:saturate(115%);transform:translateY(-1px)}
+
+/* HERO 3D */
+.hero{position:relative;min-height:58vh;display:grid;place-items:center;overflow:hidden;border-bottom:1px solid var(--stroke);padding:0}
+#stage{position:absolute;inset:0;z-index:-2}
+.hero-center{text-align:center;padding:90px 20px 60px}
+.kicker{display:inline-block;padding:6px 12px;border:1px solid var(--stroke);border-radius:999px;color:var(--muted);font-weight:800}
+.title{font-size:clamp(2.2rem,4.2vw,3.4rem);line-height:1.05;margin:14px 0 12px;font-weight:900;letter-spacing:.2px}
+.subtitle{color:var(--muted);max-width:72ch;margin:0 auto 20px}
+
+/* SEKCJE */
+section{padding:80px 0}
+.section-title{font-size:2.1rem;margin:0 0 10px}
+.section-note{color:var(--muted);margin-bottom:28px}
+
+/* FILTR */
+.filters{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center}
+.filter-pill{border:1px solid var(--stroke);background:rgba(255,255,255,.04);color:var(--txt);padding:8px 12px;border-radius:999px;cursor:pointer;font-weight:800;display:inline-flex;gap:8px;align-items:center}
+.filter-pill.active{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#00110e;border-color:transparent}
+.filter-pill .count{opacity:.8;font-weight:900}
+.search{display:flex;gap:10px;justify-content:center;margin-top:12px}
+.search input{width:min(560px,100%);padding:12px 14px;border-radius:12px;border:1px solid var(--stroke);background:rgba(255,255,255,.06);color:var(--txt);outline:none}
+
+/* GRID KART */
+.grid{display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.card{position:relative;background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.02));border:1px solid var(--stroke);
+  border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);transform-style:preserve-3d;transition:transform .3s ease;display:flex;flex-direction:column}
+.card:hover{transform:translateY(-4px)}
+.badge{position:absolute;top:-12px;left:16px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#00110e;font-weight:900;padding:6px 10px;border-radius:8px}
+.icon{font-size:26px;margin-right:6px}
+.card h3{display:flex;align-items:center;gap:8px;margin:0 0 6px}
+.lead{color:var(--muted);margin:0 0 10px}
+.hr{height:1px;background:var(--stroke);margin:14px 0}
+.card ul{margin:0;padding-left:18px}
+details{background:rgba(255,255,255,.05);border:1px solid var(--stroke);border-radius:12px;padding:12px 14px;margin-top:10px}
+summary{cursor:pointer;font-weight:900}
+.actions{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.actions .btn{flex:0 0 auto}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease, transform .7s ease}
+.reveal.show{opacity:1;transform:none}
+@media(max-width:980px){.menu{display:none}}
+</style>
+</head><body>
+
+<header>
+  <div class="container nav">
+    <a class="brand" href="/index.html" aria-label="WorkLess AI — strona główna">
+      <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <g class="gear" fill="none" stroke="#00d8c0" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="32" cy="32" r="10"/><path d="M32 8v8M32 48v8M8 32h8M48 32h8M14 14l6 6M44 44l6 6M50 14l-6 6M14 50l6-6"/>
+        </g>
+      </svg><b>WorkLess AI</b>
+    </a>
+    <nav class="menu">
+      <a href="/index.html">Start</a>
+      <a href="/uslugi.html" class="btn ghost">Usługi</a>
+      <a href="/cennik.html">Cennik</a>
+      <a href="/o-nas.html">O nas</a>
+      <a href="/blog.html">Blog</a>
+      <a href="/faq.html">FAQ</a>
+      <a href="/kontakt.html">Kontakt</a>
+      <a href="/kontakt.html" class="btn pill cta">Darmowa konsultacja</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO z animacją 3D -->
+<section class="hero">
+  <canvas id="stage"></canvas>
+  <div class="hero-center" data-aos="fade-up">
+    <span class="kicker">Modułowa oferta</span>
+    <h1 class="title">Usługi i gotowe komponenty AI</h1>
+    <p class="subtitle">Połącz elementy jak klocki: chatboty, generator ofert, raporty, analiza opinii, obsługa zamówień i asystent sprzedaży.</p>
+  </div>
+</section>
+
+<section class="container" data-aos="fade-up" style="text-align:center">
+  <h2 class="section-title">Filtruj i znajdź to, czego potrzebujesz</h2>
+  <p class="section-note">Kliknij kategorię lub wpisz słowo kluczowe (np. „Messenger”, „CRM”, „PDF”).</p>
+  <div class="filters" id="filters">
+    <button class="filter-pill active" data-filter="all">✨ Wszystko <span class="count" id="count-all"></span></button>
+    <button class="filter-pill" data-filter="chatbot">🤖 Chatboty <span class="count" id="count-chatbot"></span></button>
+    <button class="filter-pill" data-filter="oferty">📄 Oferty <span class="count" id="count-oferty"></span></button>
+    <button class="filter-pill" data-filter="raporty">📊 Raporty <span class="count" id="count-raporty"></span></button>
+    <button class="filter-pill" data-filter="opinie">⭐ Opinie <span class="count" id="count-opinie"></span></button>
+    <button class="filter-pill" data-filter="zamowienia">📦 Zamówienia <span class="count" id="count-zamowienia"></span></button>
+    <button class="filter-pill" data-filter="sprzedaz">💼 Sprzedaż <span class="count" id="count-sprzedaz"></span></button>
+  </div>
+  <div class="search">
+    <input id="search" type="search" placeholder="Szukaj po słowach kluczowych… np. WhatsApp, PDF, CRM, KPI">
+  </div>
+</section>
+
+<section class="container" data-aos="fade-up">
+  <div class="grid" id="cards">
+    <!-- Chatbot 24/7 -->
+    <article class="card reveal" data-cat="chatbot" data-keywords="chatbot www messenger whatsapp faq leady rezerwacje helpdesk automatyczna obsluga">
+      <span class="badge">Rekomendowany: Start/Biznes</span>
+      <h3><span class="icon">🤖</span>Chatbot 24/7 (WWW / Messenger / WhatsApp)</h3>
+      <p class="lead">Obsługuje pytania klientów, zbiera leady, umawia rozmowy — działa całą dobę na stronie i w komunikatorach.</p>
+      <div class="hr"></div>
+      <ul>
+        <li><b>Wejście:</b> Twoje FAQ, cennik, regulaminy, polityka zwrotów, maile z odpowiedziami.</li>
+        <li><b>Wyjście:</b> poprawne odpowiedzi + lead (imię/e-mail/telefon), notatka i źródła.</li>
+        <li><b>Kanały:</b> WWW (widget), Messenger, WhatsApp; opcjonalnie Instagram DM.</li>
+      </ul>
+      <details><summary>Jak wdrażamy (3–7 dni)</summary>
+        <ol>
+          <li>Import bazy wiedzy (WWW, PDF, DOCX), selekcja i tagowanie.</li>
+          <li>Konfiguracja tonu i zasad (kiedy przekazać do człowieka).</li>
+          <li>Integracje: formularz, e-mail, kalendarz (np. Calendly), CRM.</li>
+          <li>Testy jakości, whitelist tematów, ograniczenia odpowiedzi.</li>
+        </ol>
+      </details>
+      <details><summary>Integracje i narzędzia</summary>
+        <p>Formularze (HTML, Typeform), Mail (SMTP/Google), Kalendarz (Google/Calendly), CRM (HubSpot/Pipedrive), Webhooki.</p>
+      </details>
+      <details><summary>KPI i bezpieczeństwo</summary>
+        <ul>
+          <li><b>KPI:</b> % pytań obsłużonych bez udziału człowieka, liczba leadów, czas odpowiedzi.</li>
+          <li><b>Bezpieczeństwo:</b> maskowanie danych wrażliwych, dzienniki zmian, ograniczanie domen.</li>
+        </ul>
+      </details>
+      <div class="actions">
+        <a class="btn pill cta" href="/kontakt.html">Zamów konsultację</a>
+        <a class="btn pill" href="/cennik.html">Zobacz cennik</a>
+      </div>
+    </article>
+
+    <!-- Generator ofert -->
+    <article class="card reveal" data-cat="oferty" data-keywords="generator ofert oferta pdf docx cennik szablon brand logo podpis warunki">
+      <span class="badge">Rekomendowany: Biznes</span>
+      <h3><span class="icon">📄</span>Generator ofert (PDF/DOCX w 60 sekund)</h3>
+      <p class="lead">Handlowiec uzupełnia kilka pól, a AI składa ofertę z Waszym brandingiem, warunkami i wyceną.</p>
+      <div class="hr"></div>
+      <ul>
+        <li><b>Wejście:</b> nazwa klienta, zakres, warianty cenowe, terminy.</li>
+        <li><b>Wyjście:</b> spójny dokument (PDF/DOCX) z rozdziałami, stopką, podpisami.</li>
+        <li><b>Szablony:</b> różne layouty (krótka/pełna), wersje PL/EN.</li>
+      </ul>
+      <details><summary>Jak wdrażamy (3–5 dni)</summary>
+        <ol>
+          <li>Analiza obecnych ofert i standardów marki.</li>
+          <li>Stworzenie szablonów i zmiennych (logo, kolory, dane firmy).</li>
+          <li>Reguły cenowe i checklisty do wypełniania.</li>
+          <li>Eksport i archiwizacja ofert (Drive/CRM).</li>
+        </ol>
+      </details>
+      <details><summary>Integracje i automatyzacje</summary>
+        <p>CRMy (HubSpot/Pipedrive), Google Drive/OneDrive, podpis elektroniczny (np. Autenti), wysyłka e-mail, webhooki.</p>
+      </details>
+      <details><summary>KPI i zgodność</summary>
+        <ul>
+          <li><b>KPI:</b> czas przygotowania oferty, % ofert kompletnych, skuteczność domknięcia.</li>
+          <li><b>Zgodność:</b> aktualne warunki, automatyczny disclaimers, wersjonowanie.</li>
+        </ul>
+      </details>
+      <div class="actions">
+        <a class="btn pill cta" href="/kontakt.html">Zamów konsultację</a>
+        <a class="btn pill" href="/cennik.html">Zobacz cennik</a>
+      </div>
+    </article>
+
+    <!-- Raport tygodniowy -->
+    <article class="card reveal" data-cat="raporty" data-keywords="raport tygodniowy dashboard kpi sprzedaż marketing analityka anomalia">
+      <span class="badge">Rekomendowany: Start/Biznes</span>
+      <h3><span class="icon">📊</span>Raport tygodniowy + rekomendacje</h3>
+      <p class="lead">Co tydzień dostajesz podsumowanie wyników i listę działań na kolejny tydzień — zero tabelek do składania.</p>
+      <div class="hr"></div>
+      <ul>
+        <li><b>Dane:</b> sprzedaż, leady, ruch WWW, kampanie, opinie.</li>
+        <li><b>Wynik:</b> PDF + link do dashboardu + 5 priorytetów.</li>
+        <li><b>Alerty:</b> wykrywanie anomalii i spadków KPI.</li>
+      </ul>
+      <details><summary>Jak wdrażamy (2–4 dni)</summary>
+        <ol>
+          <li>Podłączenie źródeł danych (GA4, CRM, arkusze, marketplace).</li>
+          <li>Ustalenie KPI i progów alertów.</li>
+          <li>Szablon raportu, harmonogram wysyłek (poniedziałek 9:00).</li>
+        </ol>
+      </details>
+      <details><summary>Integracje</summary>
+        <p>GA4, Search Console, CRM, e-commerce (Shopify/Woo/Allegro), arkusze Google, Slack/Teams (powiadomienia).</p>
+      </details>
+      <details><summary>Przykładowe KPI</summary>
+        <ul><li>Leady/tydz., CR, CAC, ROAS, LTV, zwroty.</li></ul>
+      </details>
+      <div class="actions">
+        <a class="btn pill cta" href="/kontakt.html">Zamów konsultację</a>
+        <a class="btn pill" href="/cennik.html">Zobacz cennik</a>
+      </div>
+    </article>
+
+    <!-- Analiza opinii -->
+    <article class="card reveal" data-cat="opinie" data-keywords="opinie google facebook sentiment moderacja odpowiedzi reputacja gwiazdki">
+      <span class="badge">Rekomendowany: Start</span>
+      <h3><span class="icon">⭐</span>Analiza i odpowiedzi na opinie</h3>
+      <p class="lead">Monitoring opinii (Google/Facebook/Sklepy), analiza sentymentu i gotowe propozycje odpowiedzi.</p>
+      <div class="hr"></div>
+      <ul>
+        <li><b>Monitoring:</b> nowe opinie, słowa kluczowe, trend sentymentu.</li>
+        <li><b>Asystent odpowiedzi:</b> propozycje w 1 klik, zgodne z polityką.</li>
+        <li><b>Eskalacja:</b> negatywy → opiekun/serwis z kontekstem.</li>
+      </ul>
+      <details><summary>Wdrożenie i reguły</summary>
+        <p>Ustalamy ton, słowa zabronione, progi eskalacji. Tworzymy szablony na „trudne przypadki”.</p>
+      </details>
+      <details><summary>KPI</summary>
+        <ul><li>% odpowiedzi w 24h, średnia ocena ★, liczba pozyskanych opinii.</li></ul>
+      </details>
+      <div class="actions">
+        <a class="btn pill cta" href="/kontakt.html">Zamów konsultację</a>
+        <a class="btn pill" href="/cennik.html">Zobacz cennik</a>
+      </div>
+    </article>
+
+    <!-- Obsługa zamówień -->
+    <article class="card reveal" data-cat="zamowienia" data-keywords="zamówienia status reklamacje zwroty dostępność erp wms email sms">
+      <span class="badge">Rekomendowany: Biznes/Full</span>
+      <h3><span class="icon">📦</span>Asystent zamówień (status, zwroty, dostępność)</h3>
+      <p class="lead">Klient sam sprawdza status, warunki zwrotu i dostępność — ograniczasz maile i telefony w godzinach szczytu.</p>
+      <div class="hr"></div>
+      <ul>
+        <li><b>Status:</b> numer zamówienia → zwracamy etap i przewoźnika.</li>
+        <li><b>Zwroty/Reklamacje:</b> formularze + etykiety + warunki.</li>
+        <li><b>Dostępność:</b> integracja z ERP/WMS, alerty braków.</li>
+      </ul>
+      <details><summary>Integracje</summary>
+        <p>ERP/WMS (Subiekt/Comarch), kurierzy (API), e-commerce (Shopify/Woo), e-mail/SMS.</p>
+      </details>
+      <details><summary>Bezpieczeństwo</summary>
+        <p>Weryfikacja zamówienia po e-mailu/telefonie, logi zapytań, limity zapytań.</p>
+      </details>
+      <div class="actions">
+        <a class="btn pill cta" href="/kontakt.html">Zamów konsultację</a>
+        <a class="btn pill" href="/cennik.html">Zobacz cennik</a>
+      </div>
+    </article>
+
+    <!-- Asystent sprzedaży -->
+    <article class="card reveal" data-cat="sprzedaz" data-keywords="sprzedaż kwalifikacja lead scoring routing kalendarz crm follow up">
+      <span class="badge">Rekomendowany: Full</span>
+      <h3><span class="icon">💼</span>Asystent sprzedaży (leady + kwalifikacja)</h3>
+      <p class="lead">Zbiera leady, dopytuje o potrzeby, ocenia potencjał (scoring) i umawia rozmowy z handlowcem.</p>
+      <div class="hr"></div>
+      <ul>
+        <li><b>Formularz konwersacyjny:</b> mniej pól, więcej istotnych danych.</li>
+        <li><b>Scoring:</b> wagi branża/budżet/termin → priorytety.</li>
+        <li><b>Routing:</b> przypisanie do właściwego opiekuna + kalendarz.</li>
+      </ul>
+      <details><summary>Wdrożenie (5–10 dni)</summary>
+        <p>Mapujemy kwalifikację, tworzymy scenariusze pytań, podpinamy CRM i kalendarze, ustawiamy follow-up.</p>
+      </details>
+      <details><summary>KPI i najlepsze use-case</summary>
+        <ul>
+          <li><b>KPI:</b> czas reakcji, % kwalifikowanych, demo-to-close, strata na „brak kontaktu”.</li>
+          <li><b>Use-case:</b> B2B z długą sprzedażą, dużo zapytań, kilka person.</li>
+        </ul>
+      </details>
+      <div class="actions">
+        <a class="btn pill cta" href="/kontakt.html">Zamów konsultację</a>
+        <a class="btn pill" href="/cennik.html">Zobacz cennik</a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<footer style="padding:40px 0;border-top:1px solid var(--stroke);background:linear-gradient(0deg,rgba(10,15,28,.9),rgba(10,15,28,.35));text-align:center">
+  <div class="container" style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+    <div>© <span id="y"></span> WorkLess AI • <a href="/polityka.html">Polityka prywatności</a></div>
+    <div style="color:var(--muted);font-size:.95rem">kontakt@worklessai.pl • +48 123 456 789 • Polska</div>
+  </div>
+</footer>
+
+<script>
+// rok w stopce
+function year(){const y=document.getElementById('y'); if(y) y.textContent=new Date().getFullYear();}
+
+// reveal + AOS
+function reveal(){const o=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('show');o.unobserve(e.target)}}),{threshold:.15});document.querySelectorAll('.reveal,.card').forEach(el=>o.observe(el));}
+function initAOS(){AOS.init({once:true,duration:700,offset:80,easing:'ease-out-cubic'});}
+
+// tilt
+function initTilt(){document.querySelectorAll('.card').forEach(card=>{
+  card.addEventListener('mousemove',(e)=>{const r=card.getBoundingClientRect();const rx=((e.clientY-r.top)/r.height-.5)*8;const ry=((e.clientX-r.left)/r.width-.5)*-8;gsap.to(card,{rotationX:rx,rotationY:ry,transformPerspective:600,transformOrigin:'center',duration:.3});});
+  card.addEventListener('mouseleave',()=>gsap.to(card,{rotationX:0,rotationY:0,duration:.4,ease:'power2.out'}));
+});}
+
+// filtr + wyszukiwarka + liczniki
+function initFilter(){
+  const pills=[...document.querySelectorAll('.filter-pill')];
+  const search=document.getElementById('search');
+  const cards=[...document.querySelectorAll('#cards .card')];
+
+  function matches(card,cat,query){
+    const okCat = (cat==='all') || (card.dataset.cat===cat);
+    const text = (card.dataset.keywords||'').toLowerCase();
+    const okTxt = !query || text.includes(query.toLowerCase());
+    return okCat && okTxt;
+  }
+  function updateCounts(query=''){
+    const cats=['chatbot','oferty','raporty','opinie','zamowienia','sprzedaz'];
+    const all = cards.filter(c=>matches(c,'all',query)).length;
+    document.getElementById('count-all').textContent='('+all+')';
+    cats.forEach(cat=>{
+      const n = cards.filter(c=>matches(c,cat,query)).length;
+      const el = document.getElementById('count-'+cat);
+      if(el) el.textContent='('+n+')';
+    });
+  }
+  function apply(){
+    const active = pills.find(p=>p.classList.contains('active'))?.dataset.filter||'all';
+    const q = search.value.trim();
+    cards.forEach(c=>{ c.style.display = matches(c,active,q) ? '' : 'none'; });
+    updateCounts(q);
+  }
+  pills.forEach(p=>p.addEventListener('click',()=>{
+    pills.forEach(x=>x.classList.remove('active'));
+    p.classList.add('active');
+    apply();
+  }));
+  search.addEventListener('input',apply);
+  updateCounts('');
+}
+
+// HERO 3D (nasza animacja)
+function init3D(){
+  const canvas=document.getElementById('stage'); if(!canvas||!window.THREE) return;
+  const renderer=new THREE.WebGLRenderer({canvas,antialias:true});
+  const W=()=>innerWidth, H=()=>Math.max(innerHeight*.58,420);
+  function resize(){ renderer.setSize(W(),H(),false); cam.aspect=W()/H(); cam.updateProjectionMatrix(); }
+  renderer.setPixelRatio(Math.min(devicePixelRatio,1.8));
+  const scene=new THREE.Scene(); scene.fog=new THREE.Fog(0x0a0f1c,20,110);
+  const cam=new THREE.PerspectiveCamera(55,W()/H(),.1,400); cam.position.set(0,6,18);
+  scene.add(new THREE.AmbientLight(0x9fe7df,.6));
+  const dir=new THREE.DirectionalLight(0x00bfa6,1.2); dir.position.set(5,10,5); scene.add(dir);
+  const grid=new THREE.Mesh(new THREE.PlaneGeometry(200,200,90,90),
+    new THREE.MeshBasicMaterial({color:0x163956,wireframe:true,transparent:true,opacity:.4}));
+  grid.rotation.x=-Math.PI/2; grid.position.y=-4.2; scene.add(grid);
+  const knot=new THREE.Mesh(new THREE.TorusKnotGeometry(3,.85,220,32),
+    new THREE.MeshStandardMaterial({color:0x2fe3c9,roughness:.2,metalness:.6,emissive:0x0c403b,emissiveIntensity:.8}));
+  knot.position.y=1.2; scene.add(knot);
+  const starsGeo=new THREE.BufferGeometry(); const N=900; const pos=new Float32Array(N*3);
+  for(let i=0;i<N;i++){pos[i*3]=(Math.random()-.5)*120;pos[i*3+1]=Math.random()*60+10;pos[i*3+2]=(Math.random()-.5)*120;}
+  starsGeo.setAttribute('position', new THREE.BufferAttribute(pos,3));
+  scene.add(new THREE.Points(starsGeo,new THREE.PointsMaterial({color:0x5ce1d6,size:.06,transparent:true,opacity:.85})));
+  let frame=0;
+  canvas.addEventListener('mousemove',(e)=>{const nx=(e.clientX/innerWidth-.5), ny=(e.clientY/innerHeight-.5);
+    gsap.to(cam.position,{x:nx*2,y:6+ny*1.2,duration:.6,overwrite:true});});
+  function tick(){frame++; const p=grid.geometry.attributes.position;
+    for(let i=0;i<p.count;i++){const x=p.getX(i), y=p.getY(i);
+      p.setZ(i, Math.sin((x+frame*.6)*.03)*.35 + Math.cos((y+frame*.5)*.03)*.35);}
+    p.needsUpdate=true; knot.rotation.x+=.0035; knot.rotation.y+=.0052; renderer.render(scene,cam); requestAnimationFrame(tick);}
+  addEventListener('resize',resize); resize(); tick();
+}
+
+document.addEventListener('DOMContentLoaded',()=>{year();reveal();initAOS();initTilt();initFilter();init3D();});
+</script>
+</body></html>

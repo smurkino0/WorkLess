@@ -1,0 +1,216 @@
+<!DOCTYPE html><html lang="pl"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Kontakt — WorkLess AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/three@0.157.0/build/three.min.js"></script>
+<script src="https://unpkg.com/gsap@3.12.5/dist/gsap.min.js"></script>
+<style>
+:root{
+  --bg:#0a0f1c;--txt:#eaf2ff;--muted:#b4c1d8;--accent:#00bfa6;--accent2:#5ce1d6;
+  --card:rgba(255,255,255,.08);--stroke:rgba(255,255,255,.12);
+  --radius:18px;--shadow:0 18px 60px rgba(0,0,0,.5)
+}
+*{box-sizing:border-box}html,body{height:100%}
+body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--txt);background:var(--bg)}
+a{color:var(--accent);text-decoration:none}
+.container{max-width:1200px;margin:0 auto;padding:0 20px}
+
+*{box-sizing:border-box}html,body{height:100%}
+body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--txt);background:var(--bg)}
+a{color:var(--accent);text-decoration:none}
+.container{max-width:1200px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:0;z-index:50;backdrop-filter:saturate(140%) blur(12px);
+  background:linear-gradient(180deg,rgba(10,15,28,.9),rgba(10,15,28,.35));border-bottom:1px solid var(--stroke)}
+.nav{height:78px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+
+/* BRAND – zębatka */
+.brand{display:flex;align-items:center;gap:12px;color:var(--txt);font-weight:900;font-size:1.1rem}
+.brand svg{width:42px;height:42px}.brand .gear{transform-origin:50% 50%;transition:transform .25s}
+.brand:hover .gear{animation:spin 1.2s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+
+/* menu + CTA */
+.menu{display:flex;gap:16px;align-items:center}
+.menu a{color:var(--muted);font-weight:700}
+.btn{appearance:none;border:none;border-radius:12px;padding:12px 16px;font-weight:900;cursor:pointer;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));color:#00110e;box-shadow:0 10px 24px rgba(0,191,166,.25)}
+.btn.ghost{background:transparent;color:var(--txt);border:1px solid var(--stroke);box-shadow:none}
+.btn.pill{border-radius:999px}
+.btn.cta{background:linear-gradient(135deg,#00ffc2,#5ce1ff);color:#001018;letter-spacing:.2px;font-weight:900;
+  box-shadow:0 14px 34px rgba(0,255,194,.25),0 0 0 2px rgba(255,255,255,.08) inset;padding:13px 18px}
+.btn.cta:hover{filter:saturate(115%);transform:translateY(-1px)}
+
+/* HERO 3D — identyczny jak na O nas */
+.hero{position:relative;min-height:58vh;display:grid;place-items:center;overflow:hidden;border-bottom:1px solid var(--stroke);padding:0}
+#stage{position:absolute;inset:0;z-index:-2}
+.hero-center{text-align:center;padding:90px 20px 60px}
+.kicker{display:inline-block;padding:6px 12px;border:1px solid var(--stroke);border-radius:999px;color:var(--muted);font-weight:800}
+.title{font-size:clamp(2.2rem,4.2vw,3.4rem);line-height:1.05;margin:14px 0 12px;font-weight:900;letter-spacing:.2px}
+.subtitle{color:var(--muted);max-width:72ch;margin:0 auto 20px}
+
+/* SEKCJE */
+section{padding:80px 0}
+.section-title{font-size:2.1rem;margin:0 0 10px;text-align:center}
+.section-note{color:var(--muted);margin-bottom:28px;text-align:center}
+.grid{display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.card{background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.02));border:1px solid var(--stroke);
+  border-radius:var(--radius);padding:24px;box-shadow:var(--shadow)}
+.card h3{margin:0 0 8px}
+.hr{height:1px;background:var(--stroke);margin:14px 0}
+
+/* formularz */
+form label{display:block;margin-top:12px;font-weight:700}
+form input,form textarea{width:100%;padding:12px;margin-top:6px;border-radius:12px;border:1px solid var(--stroke);
+  background:rgba(255,255,255,.06);color:var(--txt)}
+form textarea{resize:vertical;min-height:120px}
+form .btn{width:100%;margin-top:18px}
+
+/* CTA */
+.cta-box{margin:40px auto 0;text-align:center;border:1px solid var(--stroke);border-radius:16px;padding:22px;
+  background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));box-shadow:var(--shadow)}
+.cta-box .btn{margin-top:10px}
+
+/* FOOTER */
+footer{padding:40px 0;border-top:1px solid var(--stroke);
+  background:linear-gradient(0deg,rgba(10,15,28,.9),rgba(10,15,28,.35));text-align:center}
+.foot{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.foot-mini{color:var(--muted);font-size:.95rem}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container nav">
+    <a class="brand" href="/index.html" aria-label="WorkLess AI — strona główna">
+      <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <g class="gear" fill="none" stroke="#00d8c0" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="32" cy="32" r="10"/>
+          <path d="M32 8v8M32 48v8M8 32h8M48 32h8M14 14l6 6M44 44l6 6M50 14l-6 6M14 50l6-6"/>
+        </g>
+      </svg>
+      <b>WorkLess AI</b>
+    </a>
+    <nav class="menu">
+      <a href="/index.html">Start</a>
+      <a href="/uslugi.html">Usługi</a>
+      <a href="/cennik.html">Cennik</a>
+      <a href="/o-nas.html">O nas</a>
+      <a href="/blog.html">Blog</a>
+      <a href="/faq.html">FAQ</a>
+      <a href="/kontakt.html" class="btn ghost active">Kontakt</a>
+      <a href="/kontakt.html" class="btn pill cta">Darmowa konsultacja</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO 3D — EXACT MATCH -->
+<section class="hero">
+  <canvas id="stage"></canvas>
+  <div class="hero-center">
+    <span class="kicker">Porozmawiajmy</span>
+    <h1 class="title">Skontaktujmy się — szybka konsultacja</h1>
+    <p class="subtitle">Masz pytania? Chcesz zobaczyć demo lub wycenę? Zostaw wiadomość — odpowiemy w 24h robocze.</p>
+  </div>
+</section>
+
+<!-- GŁÓWNA SEKCJA KONTAKTU -->
+<section class="container">
+  <h2 class="section-title">Dane kontaktowe</h2>
+  <p class="section-note">Jesteśmy dostępni od poniedziałku do piątku, 9:00–17:00. Pisz śmiało — doradzimy najkrótszą drogę do celu.</p>
+
+  <div class="grid">
+    <article class="card">
+      <h3>Formularz kontaktowy</h3>
+      <form>
+        <label for="name">Imię i nazwisko</label>
+        <input id="name" name="name" type="text" required>
+        <label for="email">Adres e-mail</label>
+        <input id="email" name="email" type="email" required>
+        <label for="msg">Wiadomość</label>
+        <textarea id="msg" name="message" required placeholder="Opisz krótko swój cel / problem / systemy, z których korzystasz…"></textarea>
+        <button class="btn pill cta" type="submit">Wyślij wiadomość</button>
+      </form>
+    </article>
+
+    <article class="card">
+      <h3>Bezpośredni kontakt</h3>
+      <p><b>Email:</b> kontakt@worklessai.pl</p>
+      <p><b>Telefon:</b> +48 123 456 789</p>
+      <p><b>Social:</b> <a href="#">Facebook</a> • <a href="#">LinkedIn</a> • <a href="#">X</a></p>
+      <div class="hr"></div>
+      <h3>Jak się przygotować?</h3>
+      <ul>
+        <li>Lista pytań i krótki opis procesu.</li>
+        <li>Dostępne integracje (CRM/ERP/sklep).</li>
+        <li>Orientacyjny budżet lub priorytet.</li>
+      </ul>
+    </article>
+  </div>
+
+  <div class="cta-box">
+    <h3>Potrzebujesz odpowiedzi dziś?</h3>
+    
+    <a class="btn pill cta" href="mailto:kontakt@worklessai.pl">Napisz do nas</a>
+  </div>
+</section>
+
+<footer>
+  <div class="container foot">
+    <div>© <span id="y"></span> WorkLess AI • <a href="/polityka.html">Polityka prywatności</a></div>
+    <div class="foot-mini">kontakt@worklessai.pl • +48 123 456 789 • Polska</div>
+  </div>
+</footer>
+
+<script>
+// rok
+document.getElementById('y').textContent = new Date().getFullYear();
+
+// HERO 3D — identyczna scena jak na innych
+(function init3D(){
+  const canvas=document.getElementById('stage'); if(!canvas||!window.THREE) return;
+  const renderer=new THREE.WebGLRenderer({canvas,antialias:true});
+  const W=()=>innerWidth, H=()=>Math.max(innerHeight*.58,420);
+  function resize(){ renderer.setSize(W(),H(),false); cam.aspect=W()/H(); cam.updateProjectionMatrix(); }
+  renderer.setPixelRatio(Math.min(devicePixelRatio,1.8));
+
+  const scene=new THREE.Scene(); scene.fog=new THREE.Fog(0x0a0f1c,20,110);
+  const cam=new THREE.PerspectiveCamera(55,W()/H(),.1,400); cam.position.set(0,6,18);
+
+  scene.add(new THREE.AmbientLight(0x9fe7df,.6));
+  const dir=new THREE.DirectionalLight(0x00bfa6,1.2); dir.position.set(5,10,5); scene.add(dir);
+
+  const grid=new THREE.Mesh(
+    new THREE.PlaneGeometry(200,200,90,90),
+    new THREE.MeshBasicMaterial({color:0x163956,wireframe:true,transparent:true,opacity:.4})
+  );
+  grid.rotation.x=-Math.PI/2; grid.position.y=-4.2; scene.add(grid);
+
+  const knot=new THREE.Mesh(
+    new THREE.TorusKnotGeometry(3,.85,220,32),
+    new THREE.MeshStandardMaterial({color:0x2fe3c9,roughness:.2,metalness:.6,emissive:0x0c403b,emissiveIntensity:.8})
+  );
+  knot.position.y=1.2; scene.add(knot);
+
+  const starsGeo=new THREE.BufferGeometry(); const N=900; const pos=new Float32Array(N*3);
+  for(let i=0;i<N;i++){pos[i*3]=(Math.random()-.5)*120;pos[i*3+1]=Math.random()*60+10;pos[i*3+2]=(Math.random()-.5)*120;}
+  starsGeo.setAttribute('position', new THREE.BufferAttribute(pos,3));
+  scene.add(new THREE.Points(starsGeo,new THREE.PointsMaterial({color:0x5ce1d6,size:.06,transparent:true,opacity:.85})));
+
+  canvas.addEventListener('mousemove',(e)=>{const nx=(e.clientX/innerWidth-.5), ny=(e.clientY/innerHeight-.5);
+    gsap.to(cam.position,{x:nx*2,y:6+ny*1.2,duration:.6,overwrite:true});});
+
+  let frame=0;
+  function tick(){
+    frame++;
+    const p=grid.geometry.attributes.position;
+    for(let i=0;i<p.count;i++){
+      const x=p.getX(i), y=p.getY(i);
+      p.setZ(i, Math.sin((x+frame*.6)*.03)*.35 + Math.cos((y+frame*.5)*.03)*.35);
+    }
+    p.needsUpdate=true;
+    knot.rotation.x+=.0035; knot.rotation.y+=.0052;
+    renderer.render(scene,cam); requestAnimationFrame(tick);
+  }
+  addEventListener('resize',resize); resize(); tick();
+})();
+</script>
+</body></html>

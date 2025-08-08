@@ -1,0 +1,189 @@
+<!DOCTYPE html><html lang="pl"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>O nas — WorkLess AI</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
+<script src="https://unpkg.com/three@0.157.0/build/three.min.js"></script>
+<script src="https://unpkg.com/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<style>
+/* style jak w FAQ i Usługi */
+:root{
+  --bg:#0a0f1c;--txt:#eaf2ff;--muted:#b4c1d8;--accent:#00bfa6;--accent2:#5ce1d6;
+  --card:rgba(255,255,255,.08);--stroke:rgba(255,255,255,.12);--radius:18px;--shadow:0 18px 60px rgba(0,0,0,.5)
+}
+*{box-sizing:border-box}html,body{height:100%}
+body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--txt);background:var(--bg)}
+a{color:var(--accent);text-decoration:none}
+.container{max-width:1200px;margin:0 auto;padding:0 20px}
+
+*{box-sizing:border-box}html,body{height:100%}
+body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--txt);background:var(--bg)}
+a{color:var(--accent);text-decoration:none}
+.container{max-width:1200px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:0;z-index:50;backdrop-filter:saturate(140%) blur(12px);
+  background:linear-gradient(180deg,rgba(10,15,28,.9),rgba(10,15,28,.35));border-bottom:1px solid var(--stroke)}
+.nav{height:78px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+
+/* BRAND – zębatka */
+.brand{display:flex;align-items:center;gap:12px;color:var(--txt);font-weight:900;font-size:1.1rem}
+.brand svg{width:42px;height:42px}.brand .gear{transform-origin:50% 50%;transition:transform .25s}
+.brand:hover .gear{animation:spin 1.2s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+
+/* menu + CTA */
+.menu{display:flex;gap:16px;align-items:center}
+.menu a{color:var(--muted);font-weight:700}
+.btn{appearance:none;border:none;border-radius:12px;padding:12px 16px;font-weight:900;cursor:pointer;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));color:#00110e;box-shadow:0 10px 24px rgba(0,191,166,.25)}
+.btn.ghost{background:transparent;color:var(--txt);border:1px solid var(--stroke);box-shadow:none}
+.btn.pill{border-radius:999px}
+.btn.cta{background:linear-gradient(135deg,#00ffc2,#5ce1ff);color:#001018;letter-spacing:.2px;font-weight:900;
+  box-shadow:0 14px 34px rgba(0,255,194,.25),0 0 0 2px rgba(255,255,255,.08) inset;padding:13px 18px}
+.btn.cta:hover{filter:saturate(115%);transform:translateY(-1px)}
+
+/* HERO */
+.hero{position:relative;min-height:58vh;display:grid;place-items:center;overflow:hidden;border-bottom:1px solid var(--stroke)}
+#stage{position:absolute;inset:0;z-index:-2}
+.hero-center{text-align:center;padding:90px 20px 60px}
+.kicker{display:inline-block;padding:6px 12px;border:1px solid var(--stroke);border-radius:999px;color:var(--muted);font-weight:800}
+.title{font-size:clamp(2.2rem,4.2vw,3.4rem);line-height:1.05;margin:14px 0 12px;font-weight:900;letter-spacing:.2px}
+.subtitle{color:var(--muted);max-width:72ch;margin:0 auto 20px}
+
+/* SEKCJE */
+section{padding:80px 0}
+.section-title{font-size:2.1rem;margin:0 0 10px;text-align:center}
+.section-note{color:var(--muted);margin-bottom:28px;text-align:center}
+.text-block{max-width:900px;margin:0 auto 40px;font-size:1.1rem;line-height:1.6;color:var(--muted)}
+.grid{display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.card{background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.02));border:1px solid var(--stroke);
+  border-radius:var(--radius);padding:24px;box-shadow:var(--shadow)}
+.card h3{margin-top:0}
+.hr{height:1px;background:var(--stroke);margin:14px 0}
+
+/* FOOTER */
+footer{padding:40px 0;border-top:1px solid var(--stroke);background:linear-gradient(0deg,rgba(10,15,28,.9),rgba(10,15,28,.35));text-align:center}
+.foot{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.foot-mini{color:var(--muted);font-size:.95rem}
+</style>
+</head><body>
+
+<header>
+  <div class="container nav">
+    <a class="brand" href="/index.html">
+      <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+        <g class="gear" fill="none" stroke="#00d8c0" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="32" cy="32" r="10"/><path d="M32 8v8M32 48v8M8 32h8M48 32h8M14 14l6 6M44 44l6 6M50 14l-6 6M14 50l6-6"/>
+        </g>
+      </svg><b>WorkLess AI</b>
+    </a>
+    <nav class="menu">
+      <a href="/index.html">Start</a>
+      <a href="/uslugi.html">Usługi</a>
+      <a href="/cennik.html">Cennik</a>
+      <a href="/o-nas.html" class="btn ghost active">O nas</a>
+      <a href="/blog.html">Blog</a>
+      <a href="/faq.html">FAQ</a>
+      <a href="/kontakt.html">Kontakt</a>
+      <a href="/kontakt.html" class="btn pill cta">Darmowa konsultacja</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <canvas id="stage"></canvas>
+  <div class="hero-center" data-aos="fade-up">
+    <span class="kicker">Kim jesteśmy</span>
+    <h1 class="title">O nas — misja WorkLess AI</h1>
+    <p class="subtitle">Automatyzujemy procesy, abyś mógł skupić się na tym, co najważniejsze — rozwoju firmy.</p>
+  </div>
+</section>
+
+<!-- OPIS DZIAŁALNOŚCI -->
+<section class="container" data-aos="fade-up">
+  <h2 class="section-title">Nasza historia</h2>
+  <p class="text-block">
+    WorkLess AI powstało z pasji do technologii i efektywności. Od początku naszym celem jest dostarczanie
+    przedsiębiorcom narzędzi, które pozwalają pracować mądrzej, a nie więcej. Współpracujemy z firmami z różnych branż —
+    od e-commerce, przez usługi, po produkcję — projektując inteligentne rozwiązania, które oszczędzają czas, redukują
+    koszty i zwiększają satysfakcję klientów.
+  </p>
+
+  <h2 class="section-title">Jak działamy</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>1. Analiza potrzeb</h3>
+      <p>Rozmawiamy, badamy procesy, identyfikujemy obszary do automatyzacji.</p>
+    </div>
+    <div class="card">
+      <h3>2. Dobór rozwiązań</h3>
+      <p>Wybieramy moduły i integracje dopasowane do Twojej branży i celów.</p>
+    </div>
+    <div class="card">
+      <h3>3. Wdrożenie</h3>
+      <p>Konfigurujemy chatboty, integracje, raporty. Testujemy i optymalizujemy.</p>
+    </div>
+    <div class="card">
+      <h3>4. Wsparcie</h3>
+      <p>Zapewniamy szkolenia, monitoring i rozwój narzędzi wraz z Twoją firmą.</p>
+    </div>
+  </div>
+
+  <h2 class="section-title">Nasze wartości</h2>
+  <ul class="text-block">
+    <li><b>Transparentność</b> — jasne warunki i komunikacja na każdym etapie.</li>
+    <li><b>Innowacja</b> — ciągłe szukanie nowych, lepszych rozwiązań.</li>
+    <li><b>Partnerstwo</b> — traktujemy Twoją firmę jak własną.</li>
+    <li><b>Efektywność</b> — liczą się wyniki, a nie tylko wdrożenia.</li>
+  </ul>
+
+  <div class="card" style="margin-top:40px;text-align:center">
+    <h3>Chcesz wiedzieć więcej?</h3>
+    <p>Sprawdź nasze <a href="/uslugi.html">usługi</a> i <a href="/cennik.html">cennik</a>, aby zobaczyć, co możemy zrobić dla Twojej firmy.</p>
+    <a href="/kontakt.html" class="btn pill cta">Skontaktuj się z nami</a>
+  </div>
+</section>
+
+<footer>
+  <div class="container foot">
+    <div>© <span id="y"></span> WorkLess AI • <a href="/polityka.html">Polityka prywatności</a></div>
+    <div class="foot-mini">kontakt@worklessai.pl • +48 123 456 789 • Polska</div>
+  </div>
+</footer>
+
+<script>
+function year(){const y=document.getElementById('y');if(y)y.textContent=new Date().getFullYear();}
+AOS.init({once:true,duration:700,offset:80,easing:'ease-out-cubic'});
+function init3D(){
+  const canvas=document.getElementById('stage'); if(!canvas||!window.THREE)return;
+  const renderer=new THREE.WebGLRenderer({canvas,antialias:true});
+  const W=()=>innerWidth,H=()=>Math.max(innerHeight*.58,420);
+  function resize(){renderer.setSize(W(),H(),false);cam.aspect=W()/H();cam.updateProjectionMatrix();}
+  renderer.setPixelRatio(Math.min(devicePixelRatio,1.8));
+  const scene=new THREE.Scene();scene.fog=new THREE.Fog(0x0a0f1c,20,110);
+  const cam=new THREE.PerspectiveCamera(55,W()/H(),.1,400);cam.position.set(0,6,18);
+  scene.add(new THREE.AmbientLight(0x9fe7df,.6));
+  const dir=new THREE.DirectionalLight(0x00bfa6,1.2);dir.position.set(5,10,5);scene.add(dir);
+  const grid=new THREE.Mesh(new THREE.PlaneGeometry(200,200,90,90),
+    new THREE.MeshBasicMaterial({color:0x163956,wireframe:true,transparent:true,opacity:.4}));
+  grid.rotation.x=-Math.PI/2;grid.position.y=-4.2;scene.add(grid);
+  const knot=new THREE.Mesh(new THREE.TorusKnotGeometry(3,.85,220,32),
+    new THREE.MeshStandardMaterial({color:0x2fe3c9,roughness:.2,metalness:.6,emissive:0x0c403b,emissiveIntensity:.8}));
+  knot.position.y=1.2;scene.add(knot);
+  const starsGeo=new THREE.BufferGeometry();const N=900;const pos=new Float32Array(N*3);
+  for(let i=0;i<N;i++){pos[i*3]=(Math.random()-.5)*120;pos[i*3+1]=Math.random()*60+10;pos[i*3+2]=(Math.random()-.5)*120;}
+  starsGeo.setAttribute('position',new THREE.BufferAttribute(pos,3));
+  scene.add(new THREE.Points(starsGeo,new THREE.PointsMaterial({color:0x5ce1d6,size:.06,transparent:true,opacity:.85})));
+  let frame=0;
+  canvas.addEventListener('mousemove',(e)=>{const nx=(e.clientX/innerWidth-.5),ny=(e.clientY/innerHeight-.5);
+    gsap.to(cam.position,{x:nx*2,y:6+ny*1.2,duration:.6,overwrite:true});});
+  function tick(){frame++;const p=grid.geometry.attributes.position;
+    for(let i=0;i<p.count;i++){const x=p.getX(i),y=p.getY(i);
+      p.setZ(i,Math.sin((x+frame*.6)*.03)*.35+Math.cos((y+frame*.5)*.03)*.35);}
+    p.needsUpdate=true;knot.rotation.x+=.0035;knot.rotation.y+=.0052;renderer.render(scene,cam);requestAnimationFrame(tick);}
+  addEventListener('resize',resize);resize();tick();
+}
+document.addEventListener('DOMContentLoaded',()=>{year();init3D();});
+</script>
+</body></html>

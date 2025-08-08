@@ -1,0 +1,345 @@
+<<!DOCTYPE html><html lang="pl"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>FAQ — WorkLess AI</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
+<script src="https://unpkg.com/three@0.157.0/build/three.min.js"></script>
+<script src="https://unpkg.com/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<style>
+:root{
+  --bg:#0a0f1c;--txt:#eaf2ff;--muted:#b4c1d8;--accent:#00bfa6;--accent2:#5ce1d6;
+  --card:rgba(255,255,255,.08);--stroke:rgba(255,255,255,.12);--radius:18px;--shadow:0 18px 60px rgba(0,0,0,.5)
+}
+*{box-sizing:border-box}html,body{height:100%}
+body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--txt);background:var(--bg)}
+a{color:var(--accent);text-decoration:none}
+.container{max-width:1200px;margin:0 auto;padding:0 20px}
+
+*{box-sizing:border-box}html,body{height:100%}
+body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--txt);background:var(--bg)}
+a{color:var(--accent);text-decoration:none}
+.container{max-width:1200px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:0;z-index:50;backdrop-filter:saturate(140%) blur(12px);
+  background:linear-gradient(180deg,rgba(10,15,28,.9),rgba(10,15,28,.35));border-bottom:1px solid var(--stroke)}
+.nav{height:78px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+
+/* BRAND – zębatka */
+.brand{display:flex;align-items:center;gap:12px;color:var(--txt);font-weight:900;font-size:1.1rem}
+.brand svg{width:42px;height:42px}.brand .gear{transform-origin:50% 50%;transition:transform .25s}
+.brand:hover .gear{animation:spin 1.2s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+
+/* menu + CTA */
+.menu{display:flex;gap:16px;align-items:center}
+.menu a{color:var(--muted);font-weight:700}
+.btn{appearance:none;border:none;border-radius:12px;padding:12px 16px;font-weight:900;cursor:pointer;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));color:#00110e;box-shadow:0 10px 24px rgba(0,191,166,.25)}
+.btn.ghost{background:transparent;color:var(--txt);border:1px solid var(--stroke);box-shadow:none}
+.btn.pill{border-radius:999px}
+.btn.cta{background:linear-gradient(135deg,#00ffc2,#5ce1ff);color:#001018;letter-spacing:.2px;font-weight:900;
+  box-shadow:0 14px 34px rgba(0,255,194,.25),0 0 0 2px rgba(255,255,255,.08) inset;padding:13px 18px}
+.btn.cta:hover{filter:saturate(115%);transform:translateY(-1px)}
+
+/* HERO 3D – jak na Usługi/Cennik */
+.hero{position:relative;min-height:58vh;display:grid;place-items:center;overflow:hidden;border-bottom:1px solid var(--stroke);padding:0}
+#stage{position:absolute;inset:0;z-index:-2}
+.hero-center{text-align:center;padding:90px 20px 60px}
+.kicker{display:inline-block;padding:6px 12px;border:1px solid var(--stroke);border-radius:999px;color:var(--muted);font-weight:800}
+.title{font-size:clamp(2.2rem,4.2vw,3.4rem);line-height:1.05;margin:14px 0 12px;font-weight:900;letter-spacing:.2px}
+.subtitle{color:var(--muted);max-width:72ch;margin:0 auto 20px}
+
+/* FILTR FAQ – pigułki + wyszukiwarka (jak w Usługi) */
+section{padding:80px 0}
+.section-title{font-size:2.1rem;margin:0 0 10px;text-align:center}
+.section-note{color:var(--muted);margin-bottom:28px;text-align:center}
+.filters{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center}
+.filter-pill{border:1px solid var(--stroke);background:rgba(255,255,255,.04);color:var(--txt);padding:8px 12px;border-radius:999px;cursor:pointer;font-weight:800;display:inline-flex;gap:8px;align-items:center}
+.filter-pill.active{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#00110e;border-color:transparent}
+.filter-pill .count{opacity:.8;font-weight:900}
+.search{display:flex;gap:10px;justify-content:center;margin-top:14px}
+.search input{width:min(680px,100%);padding:12px 14px;border-radius:12px;border:1px solid var(--stroke);background:rgba(255,255,255,.06);color:var(--txt);outline:none}
+
+/* GRID kart (jak w Usługi) */
+.grid{display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.card{position:relative;background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.02));border:1px solid var(--stroke);
+  border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);transform-style:preserve-3d;transition:transform .3s ease;display:flex;flex-direction:column}
+.card:hover{transform:translateY(-4px)}
+.badge{position:absolute;top:-12px;left:16px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#00110e;font-weight:900;padding:6px 10px;border-radius:8px}
+.icon{font-size:26px;margin-right:6px}
+.card h3{display:flex;align-items:center;gap:8px;margin:0 0 6px}
+.lead{color:var(--muted);margin:0 0 10px}
+.hr{height:1px;background:var(--stroke);margin:14px 0}
+.card ul{margin:0;padding-left:18px}
+details{background:rgba(255,255,255,.05);border:1px solid var(--stroke);border-radius:12px;padding:12px 14px;margin-top:10px}
+summary{cursor:pointer;font-weight:900}
+.actions{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.actions .btn{flex:0 0 auto}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease, transform .7s ease}
+.reveal.show{opacity:1;transform:none}
+
+/* FOOTER */
+footer{padding:40px 0;border-top:1px solid var(--stroke);background:linear-gradient(0deg,rgba(10,15,28,.9),rgba(10,15,28,.35));text-align:center}
+.foot{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.foot-mini{color:var(--muted);font-size:.95rem}
+</style>
+</head><body>
+
+<header>
+  <div class="container nav">
+    <a class="brand" href="/index.html" aria-label="WorkLess AI — strona główna">
+      <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <g class="gear" fill="none" stroke="#00d8c0" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="32" cy="32" r="10"/><path d="M32 8v8M32 48v8M8 32h8M48 32h8M14 14l6 6M44 44l6 6M50 14l-6 6M14 50l6-6"/>
+        </g>
+      </svg><b>WorkLess AI</b>
+    </a>
+    <nav class="menu">
+      <a href="/index.html">Start</a>
+      <a href="/uslugi.html">Usługi</a>
+      <a href="/cennik.html">Cennik</a>
+      <a href="/o-nas.html">O nas</a>
+      <a href="/blog.html">Blog</a>
+      <a href="/faq.html" class="btn ghost active">FAQ</a>
+      <a href="/kontakt.html">Kontakt</a>
+      <a href="/kontakt.html" class="btn pill cta">Darmowa konsultacja</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO 3D (ten sam co na Usługi/Cennik) -->
+<section class="hero">
+  <canvas id="stage"></canvas>
+  <div class="hero-center" data-aos="fade-up">
+    <span class="kicker">Szybkie odpowiedzi</span>
+    <h1 class="title">FAQ — pytania i odpowiedzi</h1>
+    <p class="subtitle">Wpisz frazę, wybierz kategorię i rozwiń pytanie. Jeśli czegoś brakuje — napisz do nas.</p>
+  </div>
+</section>
+
+<!-- FILTRY + SEARCH (jak w Usługi) -->
+<section class="container" data-aos="fade-up" style="text-align:center">
+  <h2 class="section-title">Znajdź odpowiedź</h2>
+  <p class="section-note">Kliknij kategorię albo wpisz słowo kluczowe (np. „faktura”, „Messenger”, „SLA”).</p>
+  <div class="filters" id="filters">
+    <button class="filter-pill active" data-filter="all">✨ Wszystko <span class="count" id="count-all"></span></button>
+    <button class="filter-pill" data-filter="oferta">📦 Oferta <span class="count" id="count-oferta"></span></button>
+    <button class="filter-pill" data-filter="platnosci">💳 Płatności <span class="count" id="count-platnosci"></span></button>
+    <button class="filter-pill" data-filter="wdrozenie">⚙️ Wdrożenie <span class="count" id="count-wdrozenie"></span></button>
+    <button class="filter-pill" data-filter="wsparcie">🛠️ Wsparcie <span class="count" id="count-wsparcie"></span></button>
+  </div>
+  <div class="search">
+    <input id="search" type="search" placeholder="Szukaj… np. integracje, demo, RODO, faktura">
+  </div>
+</section>
+
+<!-- KARTY FAQ (layout 1:1 jak Usługi) -->
+<section class="container" data-aos="fade-up">
+  <div class="grid" id="cards">
+    <!-- OFERTA -->
+    <article class="card reveal" data-cat="oferta" data-keywords="oferta zakres moduły chatbot generator raporty opinie zamówienia sprzedaż">
+      <span class="badge">Oferta</span>
+      <h3><span class="icon">📦</span>Co obejmuje Wasza oferta?</h3>
+      <p class="lead">Pracujemy modułowo: chatboty, generator ofert, raporty, analiza opinii, asystent zamówień i sprzedaży.</p>
+      <div class="hr"></div>
+      <details><summary>Pełny opis</summary>
+        <ul>
+          <li>🤖 Chatbot 24/7 (WWW/Messenger/WhatsApp)</li>
+          <li>📄 Generator ofert (PDF/DOCX w 60 s)</li>
+          <li>📊 Raport tygodniowy + rekomendacje</li>
+          <li>⭐ Analiza opinii + propozycje odpowiedzi</li>
+          <li>📦 Asystent zamówień (status/zwroty/dostępność)</li>
+          <li>💼 Asystent sprzedaży (kwalifikacja leadów)</li>
+        </ul>
+        <p>Zobacz <a href="/uslugi.html">Usługi</a> i <a href="/cennik.html">Cennik</a>.</p>
+      </details>
+    </article>
+
+    <article class="card reveal" data-cat="oferta" data-keywords="plan start biznes full wybór dopasowanie">
+      <span class="badge">Oferta</span>
+      <h3><span class="icon">📦</span>Jaki plan wybrać na start?</h3>
+      <p class="lead">Start (1 moduł), Biznes (2–3 moduły + integracje), Full (pełna automatyzacja).</p>
+      <div class="hr"></div>
+      <details><summary>Szczegóły rekomendacji</summary>
+        <ul>
+          <li><b>Start</b>: szybki efekt, mało zmian w procesach</li>
+          <li><b>Biznes</b>: najlepszy stosunek cena/efekt</li>
+          <li><b>Full</b>: kompleksowo + dashboard KPI</li>
+        </ul>
+        <p>Umów <a href="/kontakt.html">konsultację</a> — dobierzemy zakres w 10 minut.</p>
+      </details>
+    </article>
+
+    <article class="card reveal" data-cat="oferta" data-keywords="demo prezentacja pilotaż testy">
+      <span class="badge">Oferta</span>
+      <h3><span class="icon">📦</span>Czy dostanę demo przed wdrożeniem?</h3>
+      <p class="lead">Tak, przygotujemy demo na Twoich treściach w 2–3 dni.</p>
+      <div class="hr"></div>
+      <details><summary>Jak to wygląda</summary>
+        <ol>
+          <li>Przesyłasz FAQ/cennik/regulaminy</li>
+          <li>Konfigurujemy ton i zasady</li>
+          <li>Pokazujemy demo + listę poprawek</li>
+        </ol>
+        <p>Zgłoszenie przez <a href="/kontakt.html">formularz</a>.</p>
+      </details>
+    </article>
+
+    <!-- PŁATNOŚCI -->
+    <article class="card reveal" data-cat="platnosci" data-keywords="rozliczenie miesięcznie rocznie rabat faktura vat">
+      <span class="badge">Płatności</span>
+      <h3><span class="icon">💳</span>Jak rozliczacie usługę?</h3>
+      <p class="lead">Miesięcznie lub rocznie (−10% z góry). Faktura VAT 23%.</p>
+      <div class="hr"></div>
+      <details><summary>Szczegóły</summary>
+        <p>Wszystkie ceny bazowe w PLN w <a href="/cennik.html">Cenniku</a> są ustawione jako <b>brutto</b> z możliwością przełączenia na <b>netto</b>.</p>
+      </details>
+    </article>
+
+    <article class="card reveal" data-cat="platnosci" data-keywords="metody płatność przelew karta online cykliczne">
+      <span class="badge">Płatności</span>
+      <h3><span class="icon">💳</span>Jakie metody płatności?</h3>
+      <p class="lead">Przelew, karta (cykliczne), szybkie płatności online.</p>
+      <div class="hr"></div>
+      <details><summary>Dodatkowe opcje</summary>
+        <p>Przy większych wdrożeniach możliwe etapy (50/50) albo rozliczenia kwartalne.</p>
+      </details>
+    </article>
+
+    <!-- WDROŻENIE -->
+    <article class="card reveal" data-cat="wdrozenie" data-keywords="czas wdrożenie harmonogram dni zakres">
+      <span class="badge">Wdrożenie</span>
+      <h3><span class="icon">⚙️</span>Ile trwa wdrożenie?</h3>
+      <p class="lead">3–7 dni dla 1–3 modułów, Full: 10–14 dni.</p>
+      <div class="hr"></div>
+      <details><summary>Etapy</summary>
+        <ol><li>Warsztat 60–90 min</li><li>Konfiguracja + integracje</li><li>Testy + poprawki</li></ol>
+      </details>
+    </article>
+
+    <article class="card reveal" data-cat="wdrozenie" data-keywords="integracje crm erp wms messenger whatsapp sklep ga4 arkusze">
+      <span class="badge">Wdrożenie</span>
+      <h3><span class="icon">⚙️</span>Integracje i narzędzia</h3>
+      <p class="lead">CRM (HubSpot/Pipedrive), e-commerce (Shopify/Woo), ERP/WMS (Subiekt/Comarch), GA4, Messenger/WhatsApp.</p>
+      <div class="hr"></div>
+      <details><summary>Jakie dane potrzebne</summary>
+        <p>Dostępy do źródeł (API/hasła), lista KPI, materiały (FAQ/cennik).</p>
+      </details>
+    </article>
+
+    <!-- WSPARCIE -->
+    <article class="card reveal" data-cat="wsparcie" data-keywords="sla czasy reakcji priorytet dyżur">
+      <span class="badge">Wsparcie</span>
+      <h3><span class="icon">🛠️</span>Jakie są czasy reakcji (SLA)?</h3>
+      <p class="lead">Start: 48h e-mail • Biznes: 24h priorytet • Full: do 8h + dyżur.</p>
+      <div class="hr"></div>
+      <details><summary>Szczegóły SLA</summary>
+        <p>Krytyczne incydenty — eskalacja natychmiast, komunikacja o ETA.</p>
+      </details>
+    </article>
+
+    <article class="card reveal" data-cat="wsparcie" data-keywords="rodo bezpieczeństwo dane maskowanie logi backup">
+      <span class="badge">Wsparcie</span>
+      <h3><span class="icon">🛠️</span>Bezpieczeństwo i RODO</h3>
+      <p class="lead">Maskowanie danych, minimalizacja przechowywania, logi dostępu, umowa powierzenia.</p>
+      <div class="hr"></div>
+      <details><summary>Backup i wersjonowanie</summary>
+        <p>Robimy kopie i trzymamy historię zmian — łatwy powrót do poprzedniej wersji.</p>
+      </details>
+    </article>
+  </div>
+
+  <div class="cta-box reveal" style="margin-top:32px;border:1px solid var(--stroke);border-radius:16px;padding:22px;text-align:center;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));box-shadow:var(--shadow)">
+    <h3>Nie znalazłeś odpowiedzi?</h3>
+    <p class="muted">Napisz do nas — podpowiemy najszybszą ścieżkę i dobierzemy plan.</p>
+    <a class="btn pill cta" href="/kontakt.html">Skontaktuj się z nami</a>
+  </div>
+</section>
+
+<footer>
+  <div class="container foot">
+    <div>© <span id="y"></span> WorkLess AI • <a href="/polityka.html">Polityka prywatności</a></div>
+    <div class="foot-mini">kontakt@worklessai.pl • +48 123 456 789 • Polska</div>
+  </div>
+</footer>
+
+<script>
+// rok, reveal, AOS
+function year(){const y=document.getElementById('y'); if(y) y.textContent=new Date().getFullYear();}
+function reveal(){const o=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('show');o.unobserve(e.target)}}),{threshold:.15});document.querySelectorAll('.reveal,.card').forEach(el=>o.observe(el));}
+AOS.init({once:true,duration:700,offset:80,easing:'ease-out-cubic'});
+
+// filtr + wyszukiwarka (jak w Usługi)
+function initFilter(){
+  const pills=[...document.querySelectorAll('.filter-pill')];
+  const search=document.getElementById('search');
+  const cards=[...document.querySelectorAll('#cards .card')];
+
+  function matches(card,cat,query){
+    const okCat = (cat==='all') || (card.dataset.cat===cat);
+    const text = (card.dataset.keywords||'').toLowerCase();
+    const okTxt = !query || text.includes(query.toLowerCase());
+    return okCat && okTxt;
+  }
+  function updateCounts(query=''){
+    const cats=['oferta','platnosci','wdrozenie','wsparcie'];
+    const all = cards.filter(c=>matches(c,'all',query)).length;
+    document.getElementById('count-all').textContent='('+all+')';
+    cats.forEach(cat=>{
+      const n = cards.filter(c=>matches(c,cat,query)).length;
+      const el = document.getElementById('count-'+cat);
+      if(el) el.textContent='('+n+')';
+    });
+  }
+  function apply(){
+    const active = pills.find(p=>p.classList.contains('active'))?.dataset.filter||'all';
+    const q = search.value.trim();
+    cards.forEach(c=>{ c.style.display = matches(c,active,q) ? '' : 'none'; });
+    updateCounts(q);
+  }
+  pills.forEach(p=>p.addEventListener('click',()=>{
+    pills.forEach(x=>x.classList.remove('active'));
+    p.classList.add('active');
+    apply();
+  }));
+  search.addEventListener('input',apply);
+  updateCounts('');
+}
+
+// HERO 3D (ten sam co na Usługi/Cennik)
+function init3D(){
+  const canvas=document.getElementById('stage'); if(!canvas||!window.THREE) return;
+  const renderer=new THREE.WebGLRenderer({canvas,antialias:true});
+  const W=()=>innerWidth, H=()=>Math.max(innerHeight*.58,420);
+  function resize(){ renderer.setSize(W(),H(),false); cam.aspect=W()/H(); cam.updateProjectionMatrix(); }
+  renderer.setPixelRatio(Math.min(devicePixelRatio,1.8));
+  const scene=new THREE.Scene(); scene.fog=new THREE.Fog(0x0a0f1c,20,110);
+  const cam=new THREE.PerspectiveCamera(55,W()/H(),.1,400); cam.position.set(0,6,18);
+  scene.add(new THREE.AmbientLight(0x9fe7df,.6));
+  const dir=new THREE.DirectionalLight(0x00bfa6,1.2); dir.position.set(5,10,5); scene.add(dir);
+  const grid=new THREE.Mesh(new THREE.PlaneGeometry(200,200,90,90),
+    new THREE.MeshBasicMaterial({color:0x163956,wireframe:true,transparent:true,opacity:.4}));
+  grid.rotation.x=-Math.PI/2; grid.position.y=-4.2; scene.add(grid);
+  const knot=new THREE.Mesh(new THREE.TorusKnotGeometry(3,.85,220,32),
+    new THREE.MeshStandardMaterial({color:0x2fe3c9,roughness:.2,metalness:.6,emissive:0x0c403b,emissiveIntensity:.8}));
+  knot.position.y=1.2; scene.add(knot);
+  const starsGeo=new THREE.BufferGeometry(); const N=900; const pos=new Float32Array(N*3);
+  for(let i=0;i<N;i++){pos[i*3]=(Math.random()-.5)*120;pos[i*3+1]=Math.random()*60+10;pos[i*3+2]=(Math.random()-.5)*120;}
+  starsGeo.setAttribute('position', new THREE.BufferAttribute(pos,3));
+  scene.add(new THREE.Points(starsGeo,new THREE.PointsMaterial({color:0x5ce1d6,size:.06,transparent:true,opacity:.85})));
+  let frame=0;
+  canvas.addEventListener('mousemove',(e)=>{const nx=(e.clientX/innerWidth-.5), ny=(e.clientY/innerHeight-.5);
+    gsap.to(cam.position,{x:nx*2,y:6+ny*1.2,duration:.6,overwrite:true});});
+  function tick(){frame++; const p=grid.geometry.attributes.position;
+    for(let i=0;i<p.count;i++){const x=p.getX(i), y=p.getY(i);
+      p.setZ(i, Math.sin((x+frame*.6)*.03)*.35 + Math.cos((y+frame*.5)*.03)*.35);}
+    p.needsUpdate=true; knot.rotation.x+=.0035; knot.rotation.y+=.0052; renderer.render(scene,cam); requestAnimationFrame(tick);}
+  addEventListener('resize',resize); resize(); tick();
+}
+
+// init
+document.addEventListener('DOMContentLoaded',()=>{year();reveal();AOS.refresh();initFilter();init3D();});
+</script>
+</body></html>

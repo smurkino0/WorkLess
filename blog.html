@@ -1,0 +1,253 @@
+<!DOCTYPE html><html lang="pl"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Blog — WorkLess AI</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
+<script src="https://unpkg.com/three@0.157.0/build/three.min.js"></script>
+<script src="https://unpkg.com/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<style>
+:root{
+  --bg:#0a0f1c;--txt:#eaf2ff;--muted:#b4c1d8;--accent:#00bfa6;--accent2:#5ce1d6;
+  --card:rgba(255,255,255,.08);--stroke:rgba(255,255,255,.12);--radius:18px;--shadow:0 18px 60px rgba(0,0,0,.5)
+}
+*{box-sizing:border-box}html,body{height:100%}
+body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--txt);background:var(--bg)}
+a{color:var(--accent);text-decoration:none}
+.container{max-width:1200px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:0;z-index:50;backdrop-filter:saturate(140%) blur(12px);
+  background:linear-gradient(180deg,rgba(10,15,28,.9),rgba(10,15,28,.35));border-bottom:1px solid var(--stroke)}
+.nav{height:78px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+
+/* --- BRAND: zębatka z animacją --- */
+.brand{display:flex;align-items:center;gap:12px;color:var(--txt);font-weight:900;font-size:1.1rem}
+.brand svg{width:42px;height:42px}
+.brand .gear{transform-origin:50% 50%;transition:transform .25s ease}
+.brand:hover .gear{animation:spin 1.2s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* menu + CTA */
+.menu{display:flex;gap:16px;align-items:center}
+.menu a{color:var(--muted);font-weight:700}
+.btn{appearance:none;border:none;border-radius:12px;padding:12px 16px;font-weight:900;cursor:pointer;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));color:#00110e;box-shadow:0 10px 24px rgba(0,191,166,.25)}
+.btn.ghost{background:transparent;color:var(--txt);border:1px solid var(--stroke);box-shadow:none}
+.btn.pill{border-radius:999px}
+/* wyraźniejszy CTA */
+.btn.cta{
+  background:linear-gradient(135deg,#00ffc2,#5ce1ff);
+  color:#001018;letter-spacing:.2px;font-weight:900;
+  box-shadow:0 14px 34px rgba(0,255,194,.25),0 0 0 2px rgba(255,255,255,.08) inset;
+  padding:13px 18px
+}
+.btn.cta:hover{filter:saturate(115%);transform:translateY(-1px)}
+section{padding:80px 0}
+.section-title{font-size:2.1rem;margin:0 0 10px}
+.section-note{color:var(--muted);margin-bottom:28px}
+
+/* GRID postów – zawsze obok siebie gdy się mieści */
+.grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+
+.card{background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.02));border:1px solid var(--stroke);
+  border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);transform-style:preserve-3d;transition:transform .3s ease}
+.card:hover{transform:translateY(-4px)}
+
+/* rozwijane treści */
+.article-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+.article-title{margin:0 0 8px;font-size:1.35rem;line-height:1.25}
+.article-lead{color:var(--muted);margin:0 0 14px}
+.more{overflow:hidden;max-height:0;opacity:.6;transition:max-height .5s ease, opacity .5s ease}
+.more.open{opacity:1}
+.toggle{display:inline-block;margin-top:6px}
+
+footer{padding:40px 0;border-top:1px solid var(--stroke);background:linear-gradient(0deg,rgba(10,15,28,.9),rgba(10,15,28,.35));text-align:center}
+.foot{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.foot-mini{color:var(--muted);font-size:.95rem}
+
+/* HERO 3D */
+.hero{position:relative;min-height:58vh;display:grid;place-items:center;overflow:hidden;border-bottom:1px solid var(--stroke);padding:0}
+#stage{position:absolute;inset:0;z-index:-2}
+.hero-center{text-align:center;padding:90px 20px 60px}
+.kicker{display:inline-block;padding:6px 12px;border:1px solid var(--stroke);border-radius:999px;color:var(--muted);font-weight:800}
+.title{font-size:clamp(2.2rem,4.2vw,3.4rem);line-height:1.05;margin:14px 0 12px;font-weight:900;letter-spacing:.2px}
+.subtitle{color:var(--muted);max-width:72ch;margin:0 auto 20px}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease, transform .7s ease}
+.reveal.show{opacity:1;transform:none}
+
+/* responsywka – menu znika poniżej 980px */
+@media(max-width:980px){.menu{display:none}}
+</style>
+</head><body>
+
+<header>
+  <div class="container nav">
+    <!-- LOGO (zębatka) po lewej, kręci się przy hover -->
+    <a class="brand" href="/index.html" aria-label="WorkLess AI — strona główna">
+      <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <g class="gear" fill="none" stroke="#00d8c0" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="32" cy="32" r="10"/>
+          <path d="M32 8v8M32 48v8M8 32h8M48 32h8M14 14l6 6M44 44l6 6M50 14l-6 6M14 50l6-6"/>
+        </g>
+      </svg>
+      <b>WorkLess AI</b>
+    </a>
+
+    <nav class="menu">
+      <a href="/index.html">Start</a>
+      <a href="/uslugi.html">Usługi</a>
+      <a href="/cennik.html">Cennik</a>
+      <a href="/o-nas.html">O nas</a>
+      <a href="/blog.html" class="btn ghost">Blog</a>
+      <a href="/faq.html">FAQ</a>
+      <a href="/kontakt.html">Kontakt</a>
+      <a href="/kontakt.html" class="btn pill cta">Darmowa konsultacja</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO z naszą animacją 3D -->
+<section class="hero">
+  <canvas id="stage"></canvas>
+  <div class="hero-center" data-aos="fade-up">
+    <span class="kicker">Poradnik i case studies</span>
+    <h1 class="title">Blog WorkLess AI</h1>
+    <p class="subtitle">Praktyczne wpisy o wdrożeniach AI w MŚP, liczeniu ROI, checklistach i realnych efektach.</p>
+  </div>
+</section>
+
+<section class="container" data-aos="fade-up" style="padding-top:40px">
+  <div class="grid">
+    <!-- Artykuł 1 -->
+    <article class="card reveal">
+      <div class="article-head">
+        <div>
+          <h3 class="article-title">Chatbot, który naprawdę sprzedaje</h3>
+          <p class="article-lead">Od mapowania FAQ po monitoring jakości.</p>
+        </div>
+        <button class="btn pill toggle" data-target="#more-1">Czytaj</button>
+      </div>
+      <div id="more-1" class="more">
+        <p><strong>Cel:</strong> skrócić czas odpowiedzi, zwiększyć liczbę zakwalifikowanych leadów i odciążyć zespół.</p>
+        <ol>
+          <li><b>Zbierz treści:</b> strona WWW, cennik, regulaminy, pliki PDF, wcześniejsze maile z odpowiedziami.</li>
+          <li><b>Zdefiniuj styl rozmowy:</b> ton, długość odpowiedzi, zasady eskalacji do człowieka.</li>
+          <li><b>Integracje:</b> formularz kontaktowy, rezerwacje wizyt/rozmów, wysyłka na e-mail/CRM.</li>
+          <li><b>Monitoring jakości:</b> lista najczęstszych pytań, ocena odpowiedzi, szybkie poprawki bazy wiedzy.</li>
+        </ol>
+        <blockquote>Rezultat: +25% zapytań kwalifikowanych w 4 tygodnie i 80% pytań obsłużonych poza godzinami pracy.</blockquote>
+      </div>
+    </article>
+
+    <!-- Artykuł 2 -->
+    <article class="card reveal">
+      <div class="article-head">
+        <div>
+          <h3 class="article-title">Oferty w 60 sekund — szablon</h3>
+          <p class="article-lead">Struktura oferty, która działa.</p>
+        </div>
+        <button class="btn pill toggle" data-target="#more-2">Czytaj</button>
+      </div>
+      <div id="more-2" class="more">
+        <p><strong>Składniki skutecznej oferty:</strong></p>
+        <ul>
+          <li>Krótki opis problemu klienta i proponowane rozwiązanie.</li>
+          <li>Zakres prac: etapy, odpowiedzialności, ryzyka, wyłączenia.</li>
+          <li>Harmonogram i kamienie milowe.</li>
+          <li>Cennik + warunki płatności, data ważności, osoba kontaktowa.</li>
+          <li>Dowody: referencje, case study, linki do portfolio.</li>
+        </ul>
+        <p>W generatorze ofert handlowiec wypełnia tylko kilka pól. AI składa spójny PDF w brandingu firmy, bez literówek i rozjazdów.</p>
+      </div>
+    </article>
+
+    <!-- Artykuł 3 -->
+    <article class="card reveal">
+      <div class="article-head">
+        <div>
+          <h3 class="article-title">Raport tygodniowy z AI</h3>
+          <p class="article-lead">Co mierzyć, by rosło.</p>
+        </div>
+        <button class="btn pill toggle" data-target="#more-3">Czytaj</button>
+      </div>
+      <div id="more-3" class="more">
+        <p><strong>Co wrzucamy do raportu:</strong></p>
+        <ul>
+          <li>Sprzedaż vs. cel, liczba leadów, źródła ruchu.</li>
+          <li>Produkty/strony, które ciągną wynik w górę/dół.</li>
+          <li>Rekomendacje AI na kolejny tydzień (konkretne zadania).</li>
+          <li>Alerty: istotne odchylenia i anomalie.</li>
+        </ul>
+        <p>Raport wpada co poniedziałek o 9:00. Zespół dostaje listę priorytetów zamiast 30 tabel.</p>
+      </div>
+    </article>
+  </div>
+</section>
+
+<footer>
+  <div class="container foot">
+    <div>© <span id="y"></span> WorkLess AI • <a href="/polityka.html">Polityka prywatności</a></div>
+    <div class="foot-mini">kontakt@worklessai.pl • +48 123 456 789 • Polska</div>
+  </div>
+</footer>
+
+<script>
+function year(){const y=document.getElementById('y'); if(y) y.textContent=new Date().getFullYear();}
+function reveal(){const o=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('show');o.unobserve(e.target)}}),{threshold:.15});document.querySelectorAll('.reveal,.card').forEach(el=>o.observe(el));}
+function initAOS(){AOS.init({once:true,duration:700,offset:80,easing:'ease-out-cubic'});}
+
+// rozwijanie artykułów
+function initToggles(){
+  document.querySelectorAll('.toggle').forEach(btn=>{
+    const sel = btn.getAttribute('data-target');
+    const panel = document.querySelector(sel);
+    btn.addEventListener('click', ()=>{
+      const isOpen = panel.classList.contains('open');
+      if(!isOpen){
+        panel.classList.add('open');
+        panel.style.maxHeight = panel.scrollHeight+'px';
+        btn.textContent = 'Zwiń';
+      }else{
+        panel.style.maxHeight = panel.scrollHeight+'px';
+        requestAnimationFrame(()=>{ panel.style.maxHeight='0px'; panel.classList.remove('open'); });
+        btn.textContent = 'Czytaj';
+      }
+      gsap.fromTo(btn,{scale:0.98},{scale:1,duration:.2,ease:'power2.out'});
+    });
+  });
+}
+
+// Animowany hero 3D (nasza animacja)
+function init3D(){
+  const canvas=document.getElementById('stage'); if(!canvas||!window.THREE) return;
+  const renderer=new THREE.WebGLRenderer({canvas,antialias:true});
+  const W=()=>innerWidth, H=()=>Math.max(innerHeight*.58,420);
+  function resize(){ renderer.setSize(W(),H(),false); cam.aspect=W()/H(); cam.updateProjectionMatrix(); }
+  renderer.setPixelRatio(Math.min(devicePixelRatio,1.8));
+  const scene=new THREE.Scene(); scene.fog=new THREE.Fog(0x0a0f1c,20,110);
+  const cam=new THREE.PerspectiveCamera(55,W()/H(),.1,400); cam.position.set(0,6,18);
+  const amb=new THREE.AmbientLight(0x9fe7df,.6); scene.add(amb);
+  const dir=new THREE.DirectionalLight(0x00bfa6,1.2); dir.position.set(5,10,5); scene.add(dir);
+  const gridGeo=new THREE.PlaneGeometry(200,200,90,90);
+  const gridMat=new THREE.MeshBasicMaterial({color:0x163956, wireframe:true, transparent:true, opacity:.4});
+  const grid=new THREE.Mesh(gridGeo,gridMat); grid.rotation.x=-Math.PI/2; grid.position.y=-4.2; scene.add(grid);
+  const mat=new THREE.MeshStandardMaterial({color:0x2fe3c9, roughness:.2, metalness:.6, emissive:0x0c403b, emissiveIntensity:.8});
+  const knot=new THREE.Mesh(new THREE.TorusKnotGeometry(3,.85,220,32),mat); knot.position.y=1.2; scene.add(knot);
+  const starsGeo=new THREE.BufferGeometry(); const N=900; const pos=new Float32Array(N*3);
+  for(let i=0;i<N;i++){pos[i*3]=(Math.random()-.5)*120;pos[i*3+1]=Math.random()*60+10;pos[i*3+2]=(Math.random()-.5)*120;}
+  starsGeo.setAttribute('position', new THREE.BufferAttribute(pos,3));
+  const stars=new THREE.Points(starsGeo,new THREE.PointsMaterial({color:0x5ce1d6,size:.06,transparent:true,opacity:.85}));
+  scene.add(stars);
+  let frame=0;
+  canvas.addEventListener('mousemove',(e)=>{const nx=(e.clientX/innerWidth-.5), ny=(e.clientY/innerHeight-.5); gsap.to(cam.position,{x:nx*2,y:6+ny*1.2,duration:.6,overwrite:true});});
+  function tick(){frame++; const p=grid.geometry.attributes.position;
+    for(let i=0;i<p.count;i++){const x=p.getX(i), y=p.getY(i); const z=Math.sin((x+frame*.6)*.03)*.35 + Math.cos((y+frame*.5)*.03)*.35; p.setZ(i,z);} p.needsUpdate=true;
+    knot.rotation.x+=.0035; knot.rotation.y+=.0052; renderer.render(scene,cam); requestAnimationFrame(tick);}
+  addEventListener('resize',resize); resize(); tick();
+}
+
+document.addEventListener('DOMContentLoaded',()=>{year();reveal();initAOS();initToggles();init3D();});
+</script>
+</body></html>
