@@ -120,11 +120,17 @@ footer{padding:40px 0;border-top:1px solid var(--stroke);
   <div class="grid">
     <article class="card">
       <h3>Formularz kontaktowy</h3>
-     <form action="send.php" method="POST">
-    <input type="text" name="name" placeholder="Twoje imię" required>
-    <input type="email" name="email" placeholder="Twój e-mail" required>
-    <textarea name="message" placeholder="Treść wiadomości + Pakiet który cię interesuje" required></textarea>
-    <button type="submit">Wyślij</button>
+    <form action="send.php" method="POST">
+  <label>Imię i nazwisko:
+    <input type="text" name="name" required>
+  </label>
+  <label>Email:
+    <input type="email" name="email" required>
+  </label>
+  <label>Wiadomość:
+    <textarea name="message" required></textarea>
+  </label>
+  <button type="submit">Wyślij</button>
 </form>
     </article>
 
