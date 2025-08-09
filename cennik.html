@@ -1,5 +1,6 @@
 <!DOCTYPE html><html lang="pl"><head>
-<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Cennik — Subskrypcja | WorkLess AI</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
@@ -56,6 +57,15 @@ section{padding:80px 0}
 .switch button{border:0;background:transparent;color:var(--muted);padding:8px 14px;border-radius:999px;cursor:pointer;font-weight:800}
 .switch button.active{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#00110e}
 #currency{min-width:74px;text-align:center}
+
+/* NOWA: Sekcja Jak to działa */
+.how-grid{display:grid;gap:18px;grid-template-columns:1fr}
+@media(min-width:1000px){.how-grid{grid-template-columns:repeat(4,1fr)}}
+.step{background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.02));border:1px solid var(--stroke);
+  border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);text-align:left}
+.step h3{display:flex;align-items:center;gap:10px;margin:0 0 8px}
+.step p{color:var(--muted);margin:0}
+.step .ico{width:36px;height:36px;flex:0 0 36px}
 
 /* GRID kart – równe doły */
 .grid{display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
@@ -125,6 +135,58 @@ section{padding:80px 0}
       <span class="section-note" style="margin:0">Waluta:</span>
       <button id="currency" class="btn pill">PLN</button>
     </div>
+  </div>
+</section>
+
+<!-- NOWA SEKCJA: Jak to działa -->
+<section class="container" data-aos="fade-up" style="padding-top:40px">
+  <h2 class="section-title" style="text-align:center">Jak to działa</h2>
+  <p class="section-note" style="text-align:center">Cztery proste kroki od decyzji do efektów.</p>
+  <div class="how-grid">
+    <!-- 1) Wybierz plan -->
+    <article class="step reveal">
+      <h3>
+        <svg class="ico" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M4 7h16M4 12h16M4 17h10" stroke="#00bfa6" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        Wybierz plan
+      </h3>
+      <p>Start, Biznes lub Full — doradzimy najlepszy zakres na krótkiej rozmowie.</p>
+    </article>
+
+    <!-- 2) Wdrożenie -->
+    <article class="step reveal">
+      <h3>
+        <svg class="ico" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M18 6l-2.5 2.5M6 18l2.5-2.5" stroke="#5ce1d6" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        Wdrożenie
+      </h3>
+      <p>Konfiguracja modułów i integracji (zwykle 3–7 dni), na Twoich treściach.</p>
+    </article>
+
+    <!-- 3) Testy i szkolenie -->
+    <article class="step reveal">
+      <h3>
+        <svg class="ico" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M5 12l4 4L19 6" stroke="#00bfa6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Testy i szkolenie
+      </h3>
+      <p>Przeglądamy scenariusze, poprawiamy detale i szkolimy zespół (1–4h).</p>
+    </article>
+
+    <!-- 4) Wsparcie i rozwój -->
+    <article class="step reveal">
+      <h3>
+        <svg class="ico" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M12 22a8 8 0 1 1 0-16 8 8 0 0 1 0 16Z" stroke="#5ce1d6" stroke-width="2"/>
+          <path d="M12 8v4l3 3" stroke="#5ce1d6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Wsparcie i rozwój
+      </h3>
+      <p>SLA zgodnie z planem, cykliczne optymalizacje i nowe szablony.</p>
+    </article>
   </div>
 </section>
 
@@ -365,7 +427,7 @@ section{padding:80px 0}
 
 <script>
 function year(){const y=document.getElementById('y'); if(y) y.textContent=new Date().getFullYear();}
-function reveal(){const o=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('show');o.unobserve(e.target)}}),{threshold:.15});document.querySelectorAll('.reveal,.card').forEach(el=>o.observe(el));}
+function reveal(){const o=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('show');o.unobserve(e.target)}}),{threshold:.15});document.querySelectorAll('.reveal,.card,.step').forEach(el=>o.observe(el));}
 function initAOS(){AOS.init({once:true,duration:700,offset:80,easing:'ease-out-cubic'});}
 
 // Waluty, okres, netto/brutto
@@ -454,8 +516,8 @@ function init3D(){
     gsap.to(cam.position,{x:nx*2,y:6+ny*1.2,duration:.6,overwrite:true});});
   function tick(){frame++; const p=grid.geometry.attributes.position;
     for(let i=0;i<p.count;i++){const x=p.getX(i), y=p.getY(i);
-      p.setZ(i, Math.sin((x+frame*.6)*.03)*.35 + Math.cos((y+frame*.5)*.03)*.35);}
-    p.needsUpdate=true; knot.rotation.x+=.0035; knot.rotation.y+=.0052; renderer.render(scene,cam); requestAnimationFrame(tick);}
+      p.setZ(i, Math.sin((x+frame*.6)*.03)*.35 + Math.cos((y+frame*.5)*.03)*.35);} 
+    p.needsUpdate=true; knot.rotation.x+=.0035; knot.rotation.y+=.0052; renderer.render(scene,cam); requestAnimationFrame(tick);} 
   addEventListener('resize',resize); resize(); tick();
 }
 
