@@ -1,87 +1,125 @@
-<!DOCTYPE html><html lang="pl"><head>
-<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>O nas — WorkLess AI</title>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
-<script src="https://unpkg.com/three@0.157.0/build/three.min.js"></script>
-<script src="https://unpkg.com/gsap@3.12.5/dist/gsap.min.js"></script>
-<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-<style>
-/* style jak w FAQ i Usługi */
-:root{
-  --bg:#0a0f1c;--txt:#eaf2ff;--muted:#b4c1d8;--accent:#00bfa6;--accent2:#5ce1d6;
-  --card:rgba(255,255,255,.08);--stroke:rgba(255,255,255,.12);--radius:18px;--shadow:0 18px 60px rgba(0,0,0,.5)
-}
-*{box-sizing:border-box}html,body{height:100%}
-body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--txt);background:var(--bg)}
-a{color:var(--accent);text-decoration:none}
-.container{max-width:1200px;margin:0 auto;padding:0 20px}
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>O nas — WorkLess AI</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
+  <script src="https://unpkg.com/three@0.157.0/build/three.min.js"></script>
+  <script src="https://unpkg.com/gsap@3.12.5/dist/gsap.min.js"></script>
+  <style>
+    :root{
+      --bg:#0a0f1c;--txt:#eaf2ff;--muted:#b4c1d8;--accent:#00bfa6;--accent2:#5ce1d6;
+      --card:rgba(255,255,255,.08);--stroke:rgba(255,255,255,.12);--radius:18px;--shadow:0 18px 60px rgba(0,0,0,.5)
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--txt);background:var(--bg)}
+    a{color:var(--accent);text-decoration:none}
+    .container{max-width:1200px;margin:0 auto;padding:0 20px}
 
-*{box-sizing:border-box}html,body{height:100%}
-body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--txt);background:var(--bg)}
-a{color:var(--accent);text-decoration:none}
-.container{max-width:1200px;margin:0 auto;padding:0 20px}
-header{position:sticky;top:0;z-index:50;backdrop-filter:saturate(140%) blur(12px);
-  background:linear-gradient(180deg,rgba(10,15,28,.9),rgba(10,15,28,.35));border-bottom:1px solid var(--stroke)}
-.nav{height:78px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+    /* HEADER */
+    header{position:sticky;top:0;z-index:50;backdrop-filter:saturate(140%) blur(12px);
+      background:linear-gradient(180deg,rgba(10,15,28,.9),rgba(10,15,28,.35));border-bottom:1px solid var(--stroke)}
+    .nav{height:78px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+    .brand{display:flex;align-items:center;gap:12px;color:var(--txt);font-weight:900;font-size:1.1rem}
+    .brand svg{width:42px;height:42px}
+    .brand .gear{transform-origin:50% 50%;transition:transform .25s}
+    .brand:hover .gear{animation:spin 1.2s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .menu{display:flex;gap:16px;align-items:center}
+    .menu a{color:var(--muted);font-weight:700}
+    .btn{appearance:none;border:none;border-radius:12px;padding:12px 16px;font-weight:900;cursor:pointer;
+      background:linear-gradient(135deg,var(--accent),var(--accent2));color:#00110e;box-shadow:0 10px 24px rgba(0,191,166,.25)}
+    .btn.ghost{background:transparent;color:var(--txt);border:1px solid var(--stroke);box-shadow:none}
+    .btn.pill{border-radius:999px}
+    .btn.cta{background:linear-gradient(135deg,#00ffc2,#5ce1ff);color:#001018;letter-spacing:.2px;font-weight:900;
+      box-shadow:0 14px 34px rgba(0,255,194,.25),0 0 0 2px rgba(255,255,255,.08) inset;padding:13px 18px}
+    .btn.cta:hover{filter:saturate(115%);transform:translateY(-1px)}
 
-/* BRAND – zębatka */
-.brand{display:flex;align-items:center;gap:12px;color:var(--txt);font-weight:900;font-size:1.1rem}
-.brand svg{width:42px;height:42px}.brand .gear{transform-origin:50% 50%;transition:transform .25s}
-.brand:hover .gear{animation:spin 1.2s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+    /* HERO 3D */
+    .hero{position:relative;min-height:58vh;display:grid;place-items:center;overflow:hidden;border-bottom:1px solid var(--stroke)}
+    #stage{position:absolute;inset:0;z-index:-2}
+    .hero-center{text-align:center;padding:90px 20px 60px}
+    .kicker{display:inline-block;padding:6px 12px;border:1px solid var(--stroke);border-radius:999px;color:var(--muted);font-weight:800}
+    .title{font-size:clamp(2.2rem,4.2vw,3.4rem);line-height:1.05;margin:14px 0 12px;font-weight:900;letter-spacing:.2px}
+    .subtitle{color:var(--muted);max-width:72ch;margin:0 auto 20px}
 
-/* menu + CTA */
-.menu{display:flex;gap:16px;align-items:center}
-.menu a{color:var(--muted);font-weight:700}
-.btn{appearance:none;border:none;border-radius:12px;padding:12px 16px;font-weight:900;cursor:pointer;
-  background:linear-gradient(135deg,var(--accent),var(--accent2));color:#00110e;box-shadow:0 10px 24px rgba(0,191,166,.25)}
-.btn.ghost{background:transparent;color:var(--txt);border:1px solid var(--stroke);box-shadow:none}
-.btn.pill{border-radius:999px}
-.btn.cta{background:linear-gradient(135deg,#00ffc2,#5ce1ff);color:#001018;letter-spacing:.2px;font-weight:900;
-  box-shadow:0 14px 34px rgba(0,255,194,.25),0 0 0 2px rgba(255,255,255,.08) inset;padding:13px 18px}
-.btn.cta:hover{filter:saturate(115%);transform:translateY(-1px)}
+    /* OGÓLNE SEKCJE */
+    section{padding:80px 0}
+    .section-title{font-size:2.1rem;margin:0 0 10px;text-align:center}
+    .section-note{color:var(--muted);margin-bottom:28px;text-align:center}
+    .grid{display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+    .card{background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.02));border:1px solid var(--stroke);
+      border-radius:var(--radius);padding:24px;box-shadow:var(--shadow)}
+    .card h3{margin:0 0 8px}
+    .hr{height:1px;background:var(--stroke);margin:14px 0}
 
-/* HERO */
-.hero{position:relative;min-height:58vh;display:grid;place-items:center;overflow:hidden;border-bottom:1px solid var(--stroke)}
-#stage{position:absolute;inset:0;z-index:-2}
-.hero-center{text-align:center;padding:90px 20px 60px}
-.kicker{display:inline-block;padding:6px 12px;border:1px solid var(--stroke);border-radius:999px;color:var(--muted);font-weight:800}
-.title{font-size:clamp(2.2rem,4.2vw,3.4rem);line-height:1.05;margin:14px 0 12px;font-weight:900;letter-spacing:.2px}
-.subtitle{color:var(--muted);max-width:72ch;margin:0 auto 20px}
+    /* MISJA */
+    .alt{display:grid;grid-template-columns:1.05fr 1fr;gap:40px;align-items:center}
+    .alt.rev{grid-template-columns:1fr 1.05fr}
+    .illus{border:1px solid var(--stroke);border-radius:16px;background:var(--card);
+      min-height:260px;display:grid;place-items:center;position:relative;overflow:hidden}
+    .illus::after{content:"";position:absolute;inset:-40%;background:radial-gradient(closest-side,rgba(92,225,214,.2),transparent 60%);
+      filter:blur(14px);animation:pulse 6s ease-in-out infinite}
+    @keyframes pulse{50%{transform:scale(1.08)}100%{transform:scale(1)}}
+    .illus svg{width:56%;max-width:420px}
 
-/* SEKCJE */
-section{padding:80px 0}
-.section-title{font-size:2.1rem;margin:0 0 10px;text-align:center}
-.section-note{color:var(--muted);margin-bottom:28px;text-align:center}
-.text-block{max-width:900px;margin:0 auto 40px;font-size:1.1rem;line-height:1.6;color:var(--muted)}
-.grid{display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
-.card{background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.02));border:1px solid var(--stroke);
-  border-radius:var(--radius);padding:24px;box-shadow:var(--shadow)}
-.card h3{margin-top:0}
-.hr{height:1px;background:var(--stroke);margin:14px 0}
+    /* ZESPÓŁ */
+    .team{display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+    .member{position:relative;overflow:hidden}
+    .avatar{width:84px;height:84px;border-radius:50%;border:2px solid var(--stroke);display:grid;place-items:center;background:rgba(255,255,255,.06);font-weight:900;letter-spacing:.5px}
+    .role{color:var(--muted);font-weight:700;margin-top:4px}
+    .member .social{display:flex;gap:10px;margin-top:10px}
+    .social a{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border:1px solid var(--stroke);border-radius:999px;color:var(--txt);opacity:.9}
+    .social a:hover{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#00110e;border-color:transparent;transform:translateY(-1px)}
 
-/* FOOTER */
-footer{padding:40px 0;border-top:1px solid var(--stroke);background:linear-gradient(0deg,rgba(10,15,28,.9),rgba(10,15,28,.35));text-align:center}
-.foot{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.foot-mini{color:var(--muted);font-size:.95rem}
-</style>
-</head><body>
+    /* WARTOŚCI */
+    .values{display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+    .value{position:relative;padding:22px;border-radius:16px;border:1px solid var(--stroke);background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));box-shadow:var(--shadow)}
+    .value h4{margin:0 0 6px}
+    .value p{color:var(--muted);margin:0}
+
+    /* CTA */
+    .cta-box{border:1px solid var(--stroke);border-radius:16px;padding:24px;text-align:center;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));box-shadow:var(--shadow)}
+
+    /* HOVERS: tilt i outline glow */
+    .tilt{transform-style:preserve-3d;transition:transform .3s ease, box-shadow .3s ease, outline-color .3s ease}
+    .tilt:hover{transform:translateY(-4px)}
+    .glow:hover{outline:2px solid rgba(0,191,166,.45);box-shadow:0 20px 60px rgba(0,191,166,.18)}
+
+    /* reveal */
+    .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease, transform .7s ease}
+    .reveal.show{opacity:1;transform:none}
+
+    /* FOOTER */
+    footer{padding:40px 0;border-top:1px solid var(--stroke);background:linear-gradient(0deg,rgba(10,15,28,.9),rgba(10,15,28,.35));text-align:center}
+    .foot{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+    .foot-mini{color:var(--muted);font-size:.95rem}
+
+    @media(max-width:980px){.menu{display:none}.alt,.alt.rev{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
 
 <header>
   <div class="container nav">
-    <a class="brand" href="/index.html">
-      <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+    <a class="brand" href="/index.html" aria-label="WorkLess AI — strona główna">
+      <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <g class="gear" fill="none" stroke="#00d8c0" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="32" cy="32" r="10"/><path d="M32 8v8M32 48v8M8 32h8M48 32h8M14 14l6 6M44 44l6 6M50 14l-6 6M14 50l6-6"/>
+          <circle cx="32" cy="32" r="10"/>
+          <path d="M32 8v8M32 48v8M8 32h8M48 32h8M14 14l6 6M44 44l6 6M50 14l-6 6M14 50l6-6"/>
         </g>
-      </svg><b>WorkLess AI</b>
+      </svg>
+      <b>WorkLess AI</b>
     </a>
     <nav class="menu">
       <a href="/index.html">Start</a>
       <a href="/uslugi.html">Usługi</a>
       <a href="/cennik.html">Cennik</a>
-      <a href="/o-nas.html" class="btn ghost active">O nas</a>
+      <a href="/o-nas.html" class="btn ghost">O nas</a>
       <a href="/blog.html">Blog</a>
       <a href="/faq.html">FAQ</a>
       <a href="/kontakt.html">Kontakt</a>
@@ -90,58 +128,137 @@ footer{padding:40px 0;border-top:1px solid var(--stroke);background:linear-gradi
   </div>
 </header>
 
-<!-- HERO -->
-<section class="hero">
-  <canvas id="stage"></canvas>
-  <div class="hero-center" data-aos="fade-up">
+<!-- HERO z prostą animacją 3D (spójna z resztą) -->
+<section class="hero" aria-label="Sekcja hero">
+  <canvas id="stage" aria-hidden="true"></canvas>
+  <div class="hero-center">
     <span class="kicker">Kim jesteśmy</span>
-    <h1 class="title">O nas — misja WorkLess AI</h1>
-    <p class="subtitle">Automatyzujemy procesy, abyś mógł skupić się na tym, co najważniejsze — rozwoju firmy.</p>
+    <h1 class="title">O nas — misja, ludzie, wartości</h1>
+    <p class="subtitle">Automatyzujemy powtarzalną pracę, żeby Twój zespół mógł skupić się na rozwoju firmy. Prosto, szybko i bezpiecznie.</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <a class="btn pill" href="#misja">Nasza misja</a>
+      <a class="btn pill ghost" href="#zespol">Poznaj zespół</a>
+    </div>
   </div>
 </section>
 
-<!-- OPIS DZIAŁALNOŚCI -->
-<section class="container" data-aos="fade-up">
-  <h2 class="section-title">Nasza historia</h2>
-  <p class="text-block">
-    WorkLess AI powstało z pasji do technologii i efektywności. Od początku naszym celem jest dostarczanie
-    przedsiębiorcom narzędzi, które pozwalają pracować mądrzej, a nie więcej. Współpracujemy z firmami z różnych branż —
-    od e-commerce, przez usługi, po produkcję — projektując inteligentne rozwiązania, które oszczędzają czas, redukują
-    koszty i zwiększają satysfakcję klientów.
-  </p>
-
-  <h2 class="section-title">Jak działamy</h2>
-  <div class="grid">
-    <div class="card">
-      <h3>1. Analiza potrzeb</h3>
-      <p>Rozmawiamy, badamy procesy, identyfikujemy obszary do automatyzacji.</p>
+<!-- MISJA -->
+<section class="container" id="misja">
+  <div class="alt">
+    <div data-aos="fade-right">
+      <h2 class="section-title" style="text-align:left">Misja WorkLess AI</h2>
+      <p style="color:var(--muted)">Dostarczamy praktyczne narzędzia AI, które realnie skracają czas operacji i zwiększają sprzedaż. Wierzymy w <b>prosty start</b>, szybkie iteracje i <b>mierzalne efekty</b>.</p>
+      <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin-top:16px">
+        <div class="card tilt glow">
+          <h3>⚡ Szybkie wdrożenia</h3>
+          <p>Demo w 2–3 dni, pierwsze wyniki w tydzień.</p>
+        </div>
+        <div class="card tilt glow">
+          <h3>🔌 Integracje bez bólu</h3>
+          <p>CRM, e‑commerce, ERP/WMS, GA4, kalendarze i więcej.</p>
+        </div>
+        <div class="card tilt glow">
+          <h3>📈 KPI ponad wszystko</h3>
+          <p>Raporty i alerty, które prowadzą do decyzji.</p>
+        </div>
+      </div>
     </div>
-    <div class="card">
-      <h3>2. Dobór rozwiązań</h3>
-      <p>Wybieramy moduły i integracje dopasowane do Twojej branży i celów.</p>
-    </div>
-    <div class="card">
-      <h3>3. Wdrożenie</h3>
-      <p>Konfigurujemy chatboty, integracje, raporty. Testujemy i optymalizujemy.</p>
-    </div>
-    <div class="card">
-      <h3>4. Wsparcie</h3>
-      <p>Zapewniamy szkolenia, monitoring i rozwój narzędzi wraz z Twoją firmą.</p>
+    <div class="illus tilt" data-aos="fade-left" aria-hidden="true">
+      <!-- prosta ilustracja SVG -->
+      <svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+        <rect x="20" y="156" width="216" height="28" rx="14" stroke="#00bfa6" stroke-width="10" fill="none"/>
+        <path d="M84 156v-42c0-16 13-29 29-29h30c16 0 29 13 29 29v42" stroke="#5ce1d6" stroke-width="10" stroke-linecap="round" fill="none"/>
+        <path d="M98 85V52M158 85V52" stroke="#00bfa6" stroke-width="10" stroke-linecap="round"/>
+      </svg>
     </div>
   </div>
+</section>
 
-  <h2 class="section-title">Nasze wartości</h2>
-  <ul class="text-block">
-    <li><b>Transparentność</b> — jasne warunki i komunikacja na każdym etapie.</li>
-    <li><b>Innowacja</b> — ciągłe szukanie nowych, lepszych rozwiązań.</li>
-    <li><b>Partnerstwo</b> — traktujemy Twoją firmę jak własną.</li>
-    <li><b>Efektywność</b> — liczą się wyniki, a nie tylko wdrożenia.</li>
-  </ul>
+<!-- ZESPÓŁ (3 osoby) -->
+<section class="container" id="zespol">
+  <h2 class="section-title">Zespół</h2>
+  <p class="section-note">Mały, sprawny i nastawiony na efekt.</p>
+  <div class="team">
+    <article class="card member tilt glow reveal">
+      <div style="display:flex;align-items:center;gap:14px">
+        <div class="avatar" aria-hidden="true">AK</div>
+        <div>
+          <h3 style="margin:0">Anna Kowalska</h3>
+          <div class="role">CEO & Strategia</div>
+        </div>
+      </div>
+      <div class="hr"></div>
+      <p>10+ lat w konsultingu i produktach cyfrowych. Łączy cele biznesowe z możliwościami AI.</p>
+      <div class="social">
+        <a href="#" aria-label="Profil Anny na LinkedIn">LinkedIn</a>
+        <a href="#" aria-label="Kontakt do Anny">E-mail</a>
+      </div>
+    </article>
 
-  <div class="card" style="margin-top:40px;text-align:center">
-    <h3>Chcesz wiedzieć więcej?</h3>
-    <p>Sprawdź nasze <a href="/uslugi.html">usługi</a> i <a href="/cennik.html">cennik</a>, aby zobaczyć, co możemy zrobić dla Twojej firmy.</p>
-    <a href="/kontakt.html" class="btn pill cta">Skontaktuj się z nami</a>
+    <article class="card member tilt glow reveal">
+      <div style="display:flex;align-items:center;gap:14px">
+        <div class="avatar" aria-hidden="true">MT</div>
+        <div>
+          <h3 style="margin:0">Michał Tracz</h3>
+          <div class="role">CTO & Integracje</div>
+        </div>
+      </div>
+      <div class="hr"></div>
+      <p>Architekt integracji (CRM/ERP/WMS). Projektuje stabilne i bezpieczne przepływy danych.</p>
+      <div class="social">
+        <a href="#" aria-label="Profil Michała na GitHub">GitHub</a>
+        <a href="#" aria-label="Profil Michała na LinkedIn">LinkedIn</a>
+      </div>
+    </article>
+
+    <article class="card member tilt glow reveal">
+      <div style="display:flex;align-items:center;gap:14px">
+        <div class="avatar" aria-hidden="true">ES</div>
+        <div>
+          <h3 style="margin:0">Ewa Stępień</h3>
+          <div class="role">AI Ops & Jakość</div>
+        </div>
+      </div>
+      <div class="hr"></div>
+      <p>Testuje boty, pilnuje jakości odpowiedzi i szkoli zespoły z najlepszych praktyk.</p>
+      <div class="social">
+        <a href="#" aria-label="Profil Ewy na LinkedIn">LinkedIn</a>
+        <a href="#" aria-label="Kontakt do Ewy">E-mail</a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- WARTOŚCI -->
+<section class="container" id="wartosci">
+  <h2 class="section-title">Wartości</h2>
+  <p class="section-note">Proste zasady, które prowadzą nasze projekty.</p>
+  <div class="values">
+    <div class="value tilt reveal">
+      <h4>🪟 Transparentność</h4>
+      <p>Jasny plan, otwarta komunikacja, brak niespodzianek na fakturze.</p>
+    </div>
+    <div class="value tilt reveal">
+      <h4>🧪 Iteracje</h4>
+      <p>Szybkie eksperymenty zamiast długich analiz — wyniki > slajdy.</p>
+    </div>
+    <div class="value tilt reveal">
+      <h4>🔐 Bezpieczeństwo</h4>
+      <p>Maskowanie danych, logi zmian i kontrola dostępu jako standard.</p>
+    </div>
+    <div class="value tilt reveal">
+      <h4>🤝 Partnerstwo</h4>
+      <p>Pracujemy tak, jakby to była nasza firma — bo liczy się efekt.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="container" id="cta">
+  <div class="cta-box tilt glow" data-aos="zoom-in">
+    <h3 style="margin:0 0 6px">Chcesz zobaczyć demo na swoich treściach?</h3>
+    <p class="section-note" style="margin:0 0 12px">Pokażemy działające rozwiązanie w 2–3 dni.</p>
+    <a class="btn pill cta" href="/kontakt.html">Umów krótką konsultację</a>
   </div>
 </section>
 
@@ -152,38 +269,81 @@ footer{padding:40px 0;border-top:1px solid var(--stroke);background:linear-gradi
   </div>
 </footer>
 
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script>
-function year(){const y=document.getElementById('y');if(y)y.textContent=new Date().getFullYear();}
-AOS.init({once:true,duration:700,offset:80,easing:'ease-out-cubic'});
-function init3D(){
-  const canvas=document.getElementById('stage'); if(!canvas||!window.THREE)return;
-  const renderer=new THREE.WebGLRenderer({canvas,antialias:true});
-  const W=()=>innerWidth,H=()=>Math.max(innerHeight*.58,420);
-  function resize(){renderer.setSize(W(),H(),false);cam.aspect=W()/H();cam.updateProjectionMatrix();}
-  renderer.setPixelRatio(Math.min(devicePixelRatio,1.8));
-  const scene=new THREE.Scene();scene.fog=new THREE.Fog(0x0a0f1c,20,110);
-  const cam=new THREE.PerspectiveCamera(55,W()/H(),.1,400);cam.position.set(0,6,18);
-  scene.add(new THREE.AmbientLight(0x9fe7df,.6));
-  const dir=new THREE.DirectionalLight(0x00bfa6,1.2);dir.position.set(5,10,5);scene.add(dir);
-  const grid=new THREE.Mesh(new THREE.PlaneGeometry(200,200,90,90),
-    new THREE.MeshBasicMaterial({color:0x163956,wireframe:true,transparent:true,opacity:.4}));
-  grid.rotation.x=-Math.PI/2;grid.position.y=-4.2;scene.add(grid);
-  const knot=new THREE.Mesh(new THREE.TorusKnotGeometry(3,.85,220,32),
-    new THREE.MeshStandardMaterial({color:0x2fe3c9,roughness:.2,metalness:.6,emissive:0x0c403b,emissiveIntensity:.8}));
-  knot.position.y=1.2;scene.add(knot);
-  const starsGeo=new THREE.BufferGeometry();const N=900;const pos=new Float32Array(N*3);
-  for(let i=0;i<N;i++){pos[i*3]=(Math.random()-.5)*120;pos[i*3+1]=Math.random()*60+10;pos[i*3+2]=(Math.random()-.5)*120;}
-  starsGeo.setAttribute('position',new THREE.BufferAttribute(pos,3));
-  scene.add(new THREE.Points(starsGeo,new THREE.PointsMaterial({color:0x5ce1d6,size:.06,transparent:true,opacity:.85})));
-  let frame=0;
-  canvas.addEventListener('mousemove',(e)=>{const nx=(e.clientX/innerWidth-.5),ny=(e.clientY/innerHeight-.5);
-    gsap.to(cam.position,{x:nx*2,y:6+ny*1.2,duration:.6,overwrite:true});});
-  function tick(){frame++;const p=grid.geometry.attributes.position;
-    for(let i=0;i<p.count;i++){const x=p.getX(i),y=p.getY(i);
-      p.setZ(i,Math.sin((x+frame*.6)*.03)*.35+Math.cos((y+frame*.5)*.03)*.35);}
-    p.needsUpdate=true;knot.rotation.x+=.0035;knot.rotation.y+=.0052;renderer.render(scene,cam);requestAnimationFrame(tick);}
-  addEventListener('resize',resize);resize();tick();
-}
-document.addEventListener('DOMContentLoaded',()=>{year();init3D();});
+  // rok
+  document.getElementById('y').textContent=new Date().getFullYear();
+
+  // reveal on scroll
+  (function reveal(){
+    const o=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('show');o.unobserve(e.target)}}),{threshold:.15});
+    document.querySelectorAll('.reveal,.card,.value').forEach(el=>o.observe(el));
+  })();
+
+  // AOS
+  AOS.init({once:true,duration:700,offset:80,easing:'ease-out-cubic'});
+
+  // Tilt (subtelny parallax na hover)
+  (function initTilt(){
+    document.querySelectorAll('.tilt').forEach(card=>{
+      card.addEventListener('mousemove',(e)=>{
+        const r=card.getBoundingClientRect();
+        const rx=((e.clientY-r.top)/r.height-.5)*8;
+        const ry=((e.clientX-r.left)/r.width-.5)*-8;
+        gsap.to(card,{rotationX:rx,rotationY:ry,transformPerspective:600,transformOrigin:'center',duration:.3});
+      });
+      card.addEventListener('mouseleave',()=>gsap.to(card,{rotationX:0,rotationY:0,duration:.4,ease:'power2.out'}));
+    });
+  })();
+
+  // HERO 3D — spójna, prosta animacja (siatka + torus)
+  (function init3D(){
+    const canvas=document.getElementById('stage'); if(!canvas||!window.THREE) return;
+    const renderer=new THREE.WebGLRenderer({canvas,antialias:true});
+    const W=()=>innerWidth, H=()=>Math.max(innerHeight*.58,420);
+    function resize(){ renderer.setSize(W(),H(),false); cam.aspect=W()/H(); cam.updateProjectionMatrix(); }
+    renderer.setPixelRatio(Math.min(devicePixelRatio,1.8));
+
+    const scene=new THREE.Scene(); scene.fog=new THREE.Fog(0x0a0f1c,20,110);
+    const cam=new THREE.PerspectiveCamera(55,W()/H(),.1,400); cam.position.set(0,6,18);
+
+    scene.add(new THREE.AmbientLight(0x9fe7df,.6));
+    const dir=new THREE.DirectionalLight(0x00bfa6,1.2); dir.position.set(5,10,5); scene.add(dir);
+
+    const grid=new THREE.Mesh(new THREE.PlaneGeometry(200,200,90,90),
+      new THREE.MeshBasicMaterial({color:0x163956,wireframe:true,transparent:true,opacity:.4}));
+    grid.rotation.x=-Math.PI/2; grid.position.y=-4.2; scene.add(grid);
+
+    const knot=new THREE.Mesh(new THREE.TorusKnotGeometry(3,.85,220,32),
+      new THREE.MeshStandardMaterial({color:0x2fe3c9,roughness:.2,metalness:.6,emissive:0x0c403b,emissiveIntensity:.8}));
+    knot.position.y=1.2; scene.add(knot);
+
+    // delikatne "gwiazdki"
+    const starsGeo=new THREE.BufferGeometry(); const N=900; const pos=new Float32Array(N*3);
+    for(let i=0;i<N;i++){pos[i*3]=(Math.random()-.5)*120;pos[i*3+1]=Math.random()*60+10;pos[i*3+2]=(Math.random()-.5)*120;}
+    starsGeo.setAttribute('position', new THREE.BufferAttribute(pos,3));
+    scene.add(new THREE.Points(starsGeo,new THREE.PointsMaterial({color:0x5ce1d6,size:.06,transparent:true,opacity:.85})));
+
+    canvas.addEventListener('mousemove',(e)=>{
+      const nx=(e.clientX/innerWidth-.5), ny=(e.clientY/innerHeight-.5);
+      gsap.to(cam.position,{x:nx*2,y:6+ny*1.2,duration:.6,overwrite:true});
+    });
+
+    let frame=0;
+    function tick(){
+      frame++;
+      const p=grid.geometry.attributes.position;
+      for(let i=0;i<p.count;i++){
+        const x=p.getX(i), y=p.getY(i);
+        p.setZ(i, Math.sin((x+frame*.6)*.03)*.35 + Math.cos((y+frame*.5)*.03)*.35);
+      }
+      p.needsUpdate=true;
+      knot.rotation.x+=.0035; knot.rotation.y+=.0052;
+      renderer.render(scene,cam);
+      requestAnimationFrame(tick);
+    }
+    addEventListener('resize',resize); resize(); tick();
+  })();
 </script>
-</body></html>
+</body>
+</html>
